@@ -48,6 +48,8 @@ class Tests {
         assertEquals(2.5, timeForHalfWay(1.0, 5.0, 2.0, 4.0, 3.0, 3.0), 1e-2)
         assertEquals(3.67, timeForHalfWay(4.0, 3.0, 1.0, 4.0, 1.0, 6.0), 1e-2)
         assertEquals(4.4, timeForHalfWay(3.0, 0.0, 1.0, 6.0, 2.0, 5.0), 1e-2)
+        assertEquals(5.0, timeForHalfWay(5.0, 2.0, 5.0, 1.0, 5.0, 1.0), 1e-2)
+        assertEquals(10.833, timeForHalfWay(5.0, 1.0, 5.0, 1.0, 5.0, 3.0), 1e-2)
     }
 
     @Test
@@ -87,5 +89,6 @@ class Tests {
         assertEquals(2, segmentLength(2, 5, 3, 9))
         assertEquals(1, segmentLength(3, 6, 1, 4))
         assertEquals(4, segmentLength(1, 15, 10, 14))
+        assertEquals(0, segmentLength(0, 0, 0, 1))
     }
 }
