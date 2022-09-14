@@ -81,7 +81,7 @@ fun ageDescription(age: Int): String {
     val newAge: Int = age % 100
     if (newAge % 10 == 1 && newAge != 11) {
         return "$age год"
-    } else if (newAge in 2..4 || newAge in 22..24 || newAge in 32..34 || newAge in 42..44) {
+    } else if (newAge % 10 in 2..4 && newAge !in 12..14){
         return "$age года"
     } else {
         return "$age лет"
