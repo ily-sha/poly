@@ -12,7 +12,9 @@ import kotlin.math.sqrt
 // Максимальное количество баллов = 6
 // Рекомендуемое количество баллов = 5
 // Вместе с предыдущими уроками = 9/12
-
+fun main(){
+    println(ageDescription(52));
+}
 /**
  * Пример
  *
@@ -77,7 +79,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     val newAge: Int = age % 100
-    if (newAge == 1 || newAge == 21 || newAge == 31 || newAge == 41) {
+    if (newAge % 10 == 1 && newAge != 11) {
         return "$age год"
     } else if (newAge in 2..4 || newAge in 22..24 || newAge in 32..34 || newAge in 42..44) {
         return "$age года"
