@@ -12,9 +12,10 @@ import kotlin.math.sqrt
 // Максимальное количество баллов = 6
 // Рекомендуемое количество баллов = 5
 // Вместе с предыдущими уроками = 9/12
-fun main(){
+fun main() {
     println(ageDescription(52));
 }
+
 /**
  * Пример
  *
@@ -81,7 +82,7 @@ fun ageDescription(age: Int): String {
     val newAge: Int = age % 100
     if (newAge % 10 == 1 && newAge != 11) {
         return "$age год"
-    } else if (newAge % 10 in 2..4 && newAge !in 12..14){
+    } else if (newAge % 10 in 2..4 && newAge !in 12..14) {
         return "$age года"
     } else {
         return "$age лет"
@@ -104,19 +105,16 @@ fun timeForHalfWay(
     val s2: Double = t2 * v2;
     val s3: Double = t3 * v3;
     val averageS: Double = (s1 + s2 + s3) / 2
-
-    if (s1 <= averageS) {
+    return if (s1 <= averageS) {
         if (s1 + s2 >= averageS) {
-            return t1 + (averageS - s1) / v2
+            t1 + (averageS - s1) / v2
         } else {
-            return t1 + t2 + (averageS - s1 - s2) / v3
+            t1 + t2 + (averageS - s1 - s2) / v3
         }
     } else {
 
-        return averageS / v1
+        averageS / v1
     }
-
-
 }
 
 /**
@@ -131,10 +129,11 @@ fun timeForHalfWay(
 fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
-    rookX2: Int, rookY2: Int): Int {
+    rookX2: Int, rookY2: Int
+): Int {
     var count: Int = 0
     if (kingX == rookX1 || kingY == rookY1) {
-        count++;
+        count++
     }
     if (kingX == rookX2 || kingY == rookY2) {
         if (count == 1) {
@@ -158,12 +157,13 @@ fun whichRookThreatens(
 fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
-    bishopX: Int, bishopY: Int): Int {
+    bishopX: Int, bishopY: Int
+): Int {
     var count: Int = 0;
     if (kingX == rookX || kingY == rookY) {
         count++;
     }
-    if (abs(kingX - bishopX) == abs(kingY - bishopY)){
+    if (abs(kingX - bishopX) == abs(kingY - bishopY)) {
         if (count == 1) {
             return 3
         }
@@ -208,7 +208,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if (a in c..d && b in c..d) {
         return b - a
     }
-    if (c in a..b && d in a..b){
+    if (c in a..b && d in a..b) {
         return d - c
     }
     if (c in a..b) {

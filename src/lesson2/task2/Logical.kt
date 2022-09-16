@@ -26,10 +26,7 @@ fun isNumberHappy(number: Int): Boolean {
     val second = (number % 1000) / 100
     val third = (number % 100) / 10
     val four = number % 10
-    if (first + second == third + four){
-        return true
-    }
-    return false
+    return first + second == third + four
 }
 
 /**
@@ -59,11 +56,10 @@ fun daysInMonth(month: Int, year: Int): Int {
             return 29
         }
         return 28
-    }
-    else {
+    } else {
         var month = month
         if (month >= 8) {
-            month++;
+            month++
         }
         return 30 + month % 2
     }
@@ -78,7 +74,8 @@ fun daysInMonth(month: Int, year: Int): Int {
  */
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
-    x2: Double, y2: Double, r2: Double): Boolean {
+    x2: Double, y2: Double, r2: Double
+): Boolean {
     if (sqrt(abs(x1 - x2).pow(2) + abs(y2 - y1).pow(2)) + r1 <= r2) {
         return true
     }
@@ -95,13 +92,13 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if (maxOf(a, b) <= maxOf(r, s) && minOf(a, b) <= minOf(r, s)){
+    if (maxOf(a, b) <= maxOf(r, s) && minOf(a, b) <= minOf(r, s)) {
         return true
     }
-    if (maxOf(a, c) <= maxOf(r, s) && minOf(a, c) <= minOf(r, s)){
+    if (maxOf(a, c) <= maxOf(r, s) && minOf(a, c) <= minOf(r, s)) {
         return true
     }
-    if (maxOf(c, b) <= maxOf(r, s) && minOf(c, b) <= minOf(r, s)){
+    if (maxOf(c, b) <= maxOf(r, s) && minOf(c, b) <= minOf(r, s)) {
         return true
     }
     return false

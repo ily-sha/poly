@@ -90,8 +90,8 @@ fun angleInRadian(deg: Int, min: Int, sec: Int) = (deg + (min * 60 + sec) / 3600
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    val x: Double = maxOf(x1, x2) - minOf(x1, x2)
-    val y: Double = maxOf(y1, y2) - minOf(y1, y2)
+    val x = maxOf(x1, x2) - minOf(x1, x2)
+    val y = maxOf(y1, y2) - minOf(y1, y2)
     return sqrt(x.pow(2) + y.pow(2))
 
 
@@ -114,8 +114,8 @@ fun thirdDigit(number: Int) = (number % 1000) / 100
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int) = hoursArrive * 60 +
-        minutesArrive - hoursDepart * 60 - minutesDepart
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int) =
+    hoursArrive * 60 + minutesArrive - hoursDepart * 60 - minutesDepart
 
 /**
  * Простая (2 балла)
