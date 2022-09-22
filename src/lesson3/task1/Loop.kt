@@ -2,7 +2,7 @@
 
 package lesson3.task1
 
-import kotlin.math.sqrt
+import kotlin.math.*
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -17,7 +17,7 @@ import kotlin.math.sqrt
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -57,6 +57,9 @@ fun isPerfect(n: Int): Boolean {
  *
  * Найти число вхождений цифры m в число n
  */
+
+
+
 fun digitCountInNumber(n: Int, m: Int): Int =
     when {
         n == m -> 1
@@ -72,7 +75,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var num: Long = n.toLong()
+    do {
+        num /= 10
+        count += 1
+    } while (num != 0.0.toLong())
+    return count
+
+}
 
 /**
  * Простая (2 балла)
@@ -80,21 +92,48 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+
+fun fib(n: Int): Int {
+    var later = 1
+    var now = 1
+    for (i in 3..n) {
+        now += later
+        later = now - later
+    }
+    return now
+}
+
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    if (isPrime(n)) return n
+    for (i in 2..(sqrt(n.toDouble()) + 1).toInt()) {
+        if (n % i == 0) {
+            return i
+        }
+    }
+    return n
+}
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+
+fun maxDivisor(n: Int): Int {
+    if (isPrime(n)) return 1
+    for (i in n - 1 downTo sqrt(n.toDouble()).toInt()) {
+        if (n % i == 0) {
+            return i
+        }
+    }
+    return 1
+}
 
 /**
  * Простая (2 балла)
@@ -112,7 +151,19 @@ fun maxDivisor(n: Int): Int = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var count = 0
+    var x = x
+    while (x != 1) {
+        if (x % 2 == 0) {
+            x /= 2
+        } else {
+            x = 3 * x + 1
+        }
+        count++
+    }
+    return count
+}
 
 /**
  * Средняя (3 балла)
@@ -120,7 +171,25 @@ fun collatzSteps(x: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var min = minOf(m, n)
+    var max = maxOf(n, m)
+    var nod = 1
+    if (max % min == 0) {
+        return max
+    } else {
+        while (!isPrime(min)) {
+            val minDiv = minDivisor(min)
+            if (max % minDiv == 0) {
+                nod *= minDiv
+                max /= minDiv
+            }
+            min /= minDiv
+        }
+    }
+    return n * m / nod
+
+}
 
 /**
  * Средняя (3 балла)
@@ -129,7 +198,20 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+
+fun isCoPrime(m: Int, n: Int): Boolean {
+    val min = minOf(m, n)
+    var max = maxOf(m, n)
+    if (max % min == 0) return false
+    while (!isPrime(max)) {
+        val minDiv = minDivisor(max)
+        if (min % minDiv == 0) {
+            return false
+        }
+        max /= minDiv
+    }
+    return true
+}
 
 /**
  * Средняя (3 балла)
@@ -138,7 +220,18 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+
+
+fun revert(n: Int): Int {
+    var new = 0
+    var n = n
+    while (n != 0) {
+        new *= 10
+        new += n % 10
+        n /= 10
+    }
+    return new
+}
 
 /**
  * Средняя (3 балла)
@@ -149,7 +242,7 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 /**
  * Средняя (3 балла)
@@ -159,7 +252,9 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+
+
+fun hasDifferentDigits(n: Int): Boolean = digitCountInNumber(n, n % 10) != digitNumber(n)
 
 /**
  * Средняя (4 балла)
@@ -170,7 +265,11 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
+fun main(){
+    println(sin(PI / 2, 1e-5))
+}
 fun sin(x: Double, eps: Double): Double = TODO()
+
 
 /**
  * Средняя (4 балла)
@@ -192,7 +291,24 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+
+
+
+fun squareSequenceDigit(n: Int): Int {
+    var lenOfSeq = 1
+    var i = 1.0
+    while (lenOfSeq < n){
+        i += 1
+        lenOfSeq += digitNumber(i.pow(2).toInt())
+    }
+    var last = i.pow(2)
+    while (lenOfSeq - n != 0){
+        last /= 10
+        lenOfSeq--
+    }
+    return (last % 10).toInt()
+
+}
 
 /**
  * Сложная (5 баллов)
@@ -203,4 +319,20 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+
+fun fibSequenceDigit(n: Int): Int {
+    var lenOfSeq = 1
+    var i = 1
+    while (lenOfSeq < n){
+        i += 1
+        lenOfSeq += digitNumber(fib(i))
+    }
+    var last = fib(i)
+    while (lenOfSeq - n != 0) {
+        last /= 10
+        lenOfSeq--
+    }
+    return last % 10
+}
+
+

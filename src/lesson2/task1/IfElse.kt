@@ -13,7 +13,7 @@ import kotlin.math.sqrt
 // Рекомендуемое количество баллов = 5
 // Вместе с предыдущими уроками = 9/12
 fun main() {
-    println(ageDescription(52));
+    println(ageDescription(52))
 }
 
 /**
@@ -79,13 +79,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    val newAge: Int = age % 100
-    if (newAge % 10 == 1 && newAge != 11) {
-        return "$age год"
+    val newAge = age % 100
+    return if (newAge % 10 == 1 && newAge != 11) {
+        "$age год"
     } else if (newAge % 10 in 2..4 && newAge !in 12..14) {
-        return "$age года"
+        "$age года"
     } else {
-        return "$age лет"
+        "$age лет"
     }
 }
 
@@ -101,9 +101,9 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    val s1: Double = t1 * v1;
-    val s2: Double = t2 * v2;
-    val s3: Double = t3 * v3;
+    val s1: Double = t1 * v1
+    val s2: Double = t2 * v2
+    val s3: Double = t3 * v3
     val averageS: Double = (s1 + s2 + s3) / 2
     return if (s1 <= averageS) {
         if (s1 + s2 >= averageS) {
@@ -131,7 +131,7 @@ fun whichRookThreatens(
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
 ): Int {
-    var count: Int = 0
+    var count = 0
     if (kingX == rookX1 || kingY == rookY1) {
         count++
     }
@@ -159,9 +159,9 @@ fun rookOrBishopThreatens(
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
 ): Int {
-    var count: Int = 0;
+    var count = 0
     if (kingX == rookX || kingY == rookY) {
-        count++;
+        count++
     }
     if (abs(kingX - bishopX) == abs(kingY - bishopY)) {
         if (count == 1) {

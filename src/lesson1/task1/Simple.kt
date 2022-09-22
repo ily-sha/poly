@@ -93,8 +93,6 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
     val x = maxOf(x1, x2) - minOf(x1, x2)
     val y = maxOf(y1, y2) - minOf(y1, y2)
     return sqrt(x.pow(2) + y.pow(2))
-
-
 }
 /**
  * Простая (2 балла)
@@ -102,10 +100,9 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  * Пользователь задает целое число, больше или равно 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
+
+
 fun thirdDigit(number: Int) = (number % 1000) / 100
-
-
-
 
 /**
  * Простая (2 балла)
