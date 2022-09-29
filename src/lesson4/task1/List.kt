@@ -291,8 +291,8 @@ fun convert(n: Int, base: Int): List<Int> {
 
 fun convertToString(n: Int, base: Int): String {
     var res = ""
-
     var n = n
+    if (n == 0) return "0"
     while (n > 0) {
         if (n % base >= 10) {
             res += 'a' + (n % base) - 10
@@ -423,7 +423,7 @@ fun cotie(n: Int): String {
 }
 
 fun main(){
-    val i = 721252
+    val i = 712851
     println("$i - ${russian(i)}")
 //    for (i in 1..999){
 //        println("$i - ${russian(i)}")
@@ -456,7 +456,7 @@ fun russian(n: Int): String {
                 })
             }
         }
-        if (n % 10 in 2..4){
+        if (n % 10 in 2..4 && n % 100 !in 12..14){
             local.add("тысячи")
         } else if (n == 1) {
             local.add("тысяча")
