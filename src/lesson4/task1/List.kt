@@ -423,7 +423,7 @@ fun cotie(n: Int): String {
 }
 
 fun main(){
-    val i = 712851
+    val i = 471970
     println("$i - ${russian(i)}")
 //    for (i in 1..999){
 //        println("$i - ${russian(i)}")
@@ -458,7 +458,7 @@ fun russian(n: Int): String {
         }
         if (n % 10 in 2..4 && n % 100 !in 12..14){
             local.add("тысячи")
-        } else if (n == 1) {
+        } else if (n % 10 == 1 && n != 11) {
             local.add("тысяча")
         } else {
             local.add("тысяч")
