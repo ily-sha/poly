@@ -268,6 +268,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 fun convert(n: Int, base: Int): List<Int> {
     var list = mutableListOf<Int>()
     var n = n
+    if (n == 0) return listOf(0)
     while (n > 0) {
         list.add(n % base)
         n /= base
@@ -422,7 +423,7 @@ fun cotie(n: Int): String {
 }
 
 fun main(){
-    val i = 347
+    val i = 721252
     println("$i - ${russian(i)}")
 //    for (i in 1..999){
 //        println("$i - ${russian(i)}")
@@ -449,7 +450,7 @@ fun russian(n: Int): String {
         for (i in decatki(n)){
             if (i != ""){
                 local.add(when (i) {
-                    "один" -> "одна тысяча"
+                    "один" -> "одна"
                     "два" -> "две"
                     else -> i
                 })
@@ -457,6 +458,8 @@ fun russian(n: Int): String {
         }
         if (n % 10 in 2..4){
             local.add("тысячи")
+        } else if (n == 1) {
+            local.add("тысяча")
         } else {
             local.add("тысяч")
         }

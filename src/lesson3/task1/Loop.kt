@@ -202,6 +202,7 @@ fun lcm(m: Int, n: Int): Int {
 fun isCoPrime(m: Int, n: Int): Boolean {
     val min = minOf(m, n)
     var max = maxOf(m, n)
+    if (n == 1 && m == 1) return true
     if (max % min == 0) return false
     while (!isPrime(max)) {
         val minDiv = minDivisor(max)
