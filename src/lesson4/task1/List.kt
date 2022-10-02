@@ -108,6 +108,15 @@ fun isPalindrome(str: String): Boolean {
     return true
 }
 
+
+fun pow(n: Int, degree: Int): Int {
+    var res = 1
+    for (i in 1..degree){
+        res *= n
+    }
+    return res
+}
+
 /**
  * Пример
  *
@@ -211,9 +220,9 @@ fun polynom(p: List<Int>, x: Int): Int {
 
 
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    for (i in list.size downTo 1){
+    for (i in list.size downTo 1) {
         var sum = 0
-        for (j in 0 until i){
+        for (j in 0 until i) {
             sum += list[j]
         }
         list[i - 1] = sum
@@ -331,18 +340,18 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int {
-    var res = 0
-    for (i in str.indices){
-        if (str[i] in listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')){
-            res += str[i].digitToInt() * base.toDouble().pow(str.length - i - 1).toInt()
-        } else {
-            res += (str[i] - 'a' + 10) * base.toDouble().pow(str.length - i - 1).toInt()
-        }
 
-    }
-    return res
+fun main() {
+    println(pow(2, 10))
+
+
 }
+
+fun decimalFromString(str: String, base: Int): Int = str.mapIndexed { index, c ->
+    if (c.isDigit()) c.digitToInt() * pow(base, str.length - index - 1)
+    else (c - 'a' + 10) * pow(base, str.length - index - 1)
+}.sum()
+
 
 /**
  * Сложная (5 баллов)

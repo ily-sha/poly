@@ -101,10 +101,10 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    val s1: Double = t1 * v1
-    val s2: Double = t2 * v2
-    val s3: Double = t3 * v3
-    val averageS: Double = (s1 + s2 + s3) / 2
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val s3 = t3 * v3
+    val averageS = (s1 + s2 + s3) / 2
     return if (s1 <= averageS) {
         if (s1 + s2 >= averageS) {
             t1 + (averageS - s1) / v2
@@ -112,7 +112,6 @@ fun timeForHalfWay(
             t1 + t2 + (averageS - s1 - s2) / v3
         }
     } else {
-
         averageS / v1
     }
 }
@@ -181,9 +180,9 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val minSide: Double = minOf(a, b, c)
-    val maxSide: Double = maxOf(a, b, c)
-    val averageSide: Double = a + b + c - maxSide - minSide
+    val minSide = minOf(a, b, c)
+    val maxSide = maxOf(a, b, c)
+    val averageSide = a + b + c - maxSide - minSide
     if (maxSide < minSide + averageSide && a > 0.0 && b > 0.0 && c > 0.0) {
         if (maxSide.pow(2) == minSide.pow(2) + averageSide.pow(2)) {
             return 1
