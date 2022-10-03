@@ -426,12 +426,10 @@ fun cotie(n: Int): String {
     }
 }
 
-fun main(){
-    val i = 471970
-    println("$i - ${russian(i)}")
-//    for (i in 1..999){
-//        println("$i - ${russian(i)}")
-//    }
+
+fun main() {
+    println(tens(211891))
+}
 
 }
 

@@ -2,6 +2,9 @@
 
 package lesson3.task1
 
+import ru.spbstu.wheels.NullableMonad.filter
+import ru.spbstu.wheels.NullableMonad.flatMap
+import ru.spbstu.wheels.NullableMonad.map
 import kotlin.math.*
 
 // Урок 3: циклы
@@ -59,7 +62,6 @@ fun isPerfect(n: Int): Boolean {
  */
 
 
-
 fun digitCountInNumber(n: Int, m: Int): Int =
     when {
         n == m -> 1
@@ -77,11 +79,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var count = 0
-    var num: Long = n.toLong()
+    var num = n
     do {
         num /= 10
-        count += 1
-    } while (num != 0.0.toLong())
+        count++
+    } while (num != 0)
     return count
 
 }
@@ -165,6 +167,21 @@ fun collatzSteps(x: Int): Int {
     return count
 }
 
+fun nod(min: Int, max: Int): Int {
+    var nod = 1
+    var min = min
+    var max = max
+    while (!isPrime(min)) {
+        val minDiv = minDivisor(min)
+        if (max % minDiv == 0) {
+            nod *= minDiv
+            max /= minDiv
+        }
+        min /= minDiv
+    }
+    return nod
+}
+
 /**
  * Средняя (3 балла)
  *
@@ -172,23 +189,12 @@ fun collatzSteps(x: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var min = minOf(m, n)
-    var max = maxOf(n, m)
-    var nod = 1
+    val min = minOf(m, n)
+    val max = maxOf(n, m)
     if (max % min == 0) {
         return max
-    } else {
-        while (!isPrime(min)) {
-            val minDiv = minDivisor(min)
-            if (max % minDiv == 0) {
-                nod *= minDiv
-                max /= minDiv
-            }
-            min /= minDiv
-        }
     }
-    return n * m / nod
-
+    return n * m / nod(min, max)
 }
 
 /**
@@ -199,39 +205,13 @@ fun lcm(m: Int, n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 
+
 fun isCoPrime(m: Int, n: Int): Boolean {
     val min = minOf(m, n)
-    var max = maxOf(m, n)
+    val max = maxOf(m, n)
     if (n == 1 || m == 1) return true
     if (max % min == 0) return false
-    while (!isPrime(max)) {
-        val minDiv = minDivisor(max)
-        if (min % minDiv == 0) {
-            return false
-        }
-        max /= minDiv
-    }
-    return true
-}
-
-/**
- * Средняя (3 балла)
- *
- * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
- *
- * Использовать операции со строками в этой задаче запрещается.
- */
-
-
-fun revert(n: Int): Int {
-    var new = 0
-    var n = n
-    while (n != 0) {
-        new *= 10
-        new += n % 10
-        n /= 10
-    }
-    return new
+    return nod(min, max) == 1
 }
 
 /**
@@ -266,11 +246,11 @@ fun hasDifferentDigits(n: Int): Boolean = digitCountInNumber(n, n % 10) != digit
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun main(){
+fun main() {
     println(sin(PI / 2, 1e-5))
 }
-fun sin(x: Double, eps: Double): Double = TODO()
 
+fun sin(x: Double, eps: Double): Double = TODO()
 
 /**
  * Средняя (4 балла)
@@ -283,6 +263,27 @@ fun sin(x: Double, eps: Double): Double = TODO()
  */
 fun cos(x: Double, eps: Double): Double = TODO()
 
+
+/**
+ * Средняя (3 балла)
+ *
+ * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
+ *
+ * Использовать операции со строками в этой задаче запрещается.
+ */
+
+
+fun revert(n: Int): Int {
+    var new = 0
+    var n = n
+    while (n != 0) {
+        new *= 10
+        new += n % 10
+        n /= 10
+    }
+    return new
+}
+
 /**
  * Сложная (4 балла)
  *
@@ -292,22 +293,26 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-
-
+fun cutEndOfSeq(seq: Int, lenOfSeq: Int, last: Int): Int {
+    var last = last
+    var lenOfSeq = lenOfSeq
+    while (lenOfSeq != seq) {
+        last /= 10
+        lenOfSeq--
+    }
+    return last % 10
+}
 
 fun squareSequenceDigit(n: Int): Int {
     var lenOfSeq = 1
     var i = 1.0
-    while (lenOfSeq < n){
-        i += 1
+    while (lenOfSeq < n) {
+        i++
         lenOfSeq += digitNumber(i.pow(2).toInt())
     }
-    var last = i.pow(2)
-    while (lenOfSeq - n != 0){
-        last /= 10
-        lenOfSeq--
-    }
-    return (last % 10).toInt()
+    val last = i.pow(2)
+    return cutEndOfSeq(n, lenOfSeq, last.toInt())
+
 
 }
 
@@ -324,16 +329,12 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var lenOfSeq = 1
     var i = 1
-    while (lenOfSeq < n){
-        i += 1
+    while (lenOfSeq < n) {
+        i++
         lenOfSeq += digitNumber(fib(i))
     }
-    var last = fib(i)
-    while (lenOfSeq - n != 0) {
-        last /= 10
-        lenOfSeq--
-    }
-    return last % 10
+    val last = fib(i)
+    return cutEndOfSeq(n, lenOfSeq, last)
 }
 
 
