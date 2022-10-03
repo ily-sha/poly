@@ -256,6 +256,7 @@ fun factorize(n: Int): List<Int> {
 
 }
 
+
 /**
  * Сложная (4 балла)
  *
@@ -285,6 +286,7 @@ fun convert(n: Int, base: Int): List<Int> {
     return list.toList().reversed()
 }
 
+
 /**
  * Сложная (4 балла)
  *
@@ -312,6 +314,7 @@ fun convertToString(n: Int, base: Int): String {
     }
     return res.reversed()
 }
+
 
 /**
  * Средняя (3 балла)
@@ -356,7 +359,10 @@ fun decimalFromString(str: String, base: Int): Int = str.mapIndexed { index, c -
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
+
+
 fun roman(n: Int): String = TODO()
+
 
 /**
  * Очень сложная (7 баллов)
