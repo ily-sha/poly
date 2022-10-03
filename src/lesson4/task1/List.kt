@@ -428,7 +428,7 @@ fun cotie(n: Int): String {
 
 
 fun main() {
-    println(russian(211891))
+    println(tens(211891))
 }
 
 }
