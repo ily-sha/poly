@@ -275,7 +275,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 
 
 fun convert(n: Int, base: Int): List<Int> {
-    var list = mutableListOf<Int>()
+    val list = mutableListOf<Int>()
     var n = n
     if (n == 0) return listOf(0)
     while (n > 0) {
@@ -411,26 +411,9 @@ fun decatki(n: Int): List<String> {
     }
 }
 
-fun cotie(n: Int): String {
-    return when (n % 10) {
-        1 -> "сто"
-        2 -> "двести"
-        3 -> "триста"
-        4 -> "четыреста"
-        5 -> "пятьсот"
-        6 -> "шестьсот"
-        7 -> "семьсот"
-        8 -> "восемьсот"
-        9 -> "девятьсот"
-        else -> ""
-    }
-}
-
 
 fun main() {
-    println(tens(211891))
-}
-
+    println(russian(211891))
 }
 
 fun russian(n: Int): String {
