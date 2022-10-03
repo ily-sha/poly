@@ -341,11 +341,6 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * (например, str.toInt(base)), запрещается.
  */
 
-fun main() {
-    println(pow(2, 10))
-
-
-}
 
 fun decimalFromString(str: String, base: Int): Int = str.mapIndexed { index, c ->
     if (c.isDigit()) c.digitToInt() * pow(base, str.length - index - 1)
@@ -431,12 +426,10 @@ fun cotie(n: Int): String {
     }
 }
 
-fun main(){
-    val i = 471970
-    println("$i - ${russian(i)}")
-//    for (i in 1..999){
-//        println("$i - ${russian(i)}")
-//    }
+
+fun main() {
+    println(russian(211891))
+}
 
 }
 
@@ -467,7 +460,7 @@ fun russian(n: Int): String {
         }
         if (n % 10 in 2..4 && n % 100 !in 12..14){
             local.add("тысячи")
-        } else if (n % 10 == 1 && n != 11) {
+        } else if (n % 10 == 1 && n % 100 != 11) {
             local.add("тысяча")
         } else {
             local.add("тысяч")
