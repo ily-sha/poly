@@ -113,7 +113,7 @@ fun isPalindrome(str: String): Boolean {
 
 fun pow(n: Int, degree: Int): Int {
     var res = 1
-    for (i in 1..degree){
+    for (i in 1..degree) {
         res *= n
     }
     return res
@@ -169,6 +169,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
+
 
 fun times(a: List<Int>, b: List<Int>): Int = a.zip(b) { it1, it2 -> it1 * it2 }.sum()
 
@@ -348,36 +349,26 @@ fun roman(n: Int): String = TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 
+fun main(){
+    println(russian(25112))
+}
 
-fun tens(n: Int): List<String> {
+
+fun russian(num: Int): String {
     val listOfUnits = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
     val listOfDozens = listOf("", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят",
         "восемьдесят", "девяносто")
-    return when (n % 100) {
-        10 -> listOf("десять")
-        11 -> listOf("одиннадцать")
-        12 -> listOf("двенадцать")
-        13 -> listOf("тринадцать")
-        14 -> listOf("четырнадцать")
-        15 -> listOf("пятнадцать")
-        16 -> listOf("шестнадцать")
-        17 -> listOf("семнадцать")
-        18 -> listOf("восемнадцать")
-        19 -> listOf("девятнадцать")
-        else -> listOf(listOfDozens[n % 100 / 10], listOfUnits[n % 10])
-    }
-}
+    val listOfHundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот",
+        "восемьсот", "девятьсот")
+    val special_symbol = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
+        "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+
+    fun tens(n: Int): List<String> =
+        if ((n % 100) in 10..19) listOf(special_symbol[n % 10]) else listOf(listOfDozens[n % 100 / 10], listOfUnits[n % 10])
 
 
-fun main() {
-    println(russian(211891))
-}
-
-fun russian(num: Int): String {
-    val hundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот",
-        "девятьсот")
     val len = digitNumber(num)
-    var res = mutableListOf<String>()
+    val res = mutableListOf<String>()
     var n = num
     for (i in tens(n)) {
         if (i != "") {
@@ -385,8 +376,8 @@ fun russian(num: Int): String {
         }
     }
     n /= 100
-    if (hundreds[n % 10] != "") {
-        res.add(0, hundreds[n % 10])
+    if (listOfHundreds[n % 10] != "") {
+        res.add(0, listOfHundreds[n % 10])
     }
     n /= 10
     if (len > 3) {
@@ -409,8 +400,8 @@ fun russian(num: Int): String {
         }
         res.add(0, local.joinToString(" "))
         n /= 100
-        if (hundreds[n % 10] != "") {
-            res.add(0, hundreds[n % 10])
+        if (listOfHundreds[n % 10] != "") {
+            res.add(0, listOfHundreds[n % 10])
         }
     }
     return res.joinToString(" ")
