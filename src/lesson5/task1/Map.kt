@@ -366,7 +366,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  * Очень сложная (8 баллов)
  *
  * Входными данными является ассоциативный массив
- * "название сокровища"-"пара (вес сокровища, sцена сокровища)"
+ * "название сокровища"-"пара (вес сокровища, цена сокровища)"
  * и вместимость вашего рюкзака.
  * Необходимо вернуть множество сокровищ с максимальной суммарной стоимостью,
  * которые вы можете унести в рюкзаке.
@@ -391,35 +391,26 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
 //  println(bagPacking( mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)), 450))
 
 fun main() {
-    bagPacking(mapOf("1" to (5 to 3), "2" to (10 to 5), "3" to (6 to 4), "4" to (5 to 2)), 14)
+    println(bagPacking(mapOf("1" to (5 to 3), "2" to (10 to 5), "3" to (6 to 4), "4" to (5 to 2)), 14))
 }
 
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    var mutableList = mutableListOf(0)
+    var mutableList = mutableListOf(Pair(0, Pair(0, setOf<String>())))
     var count = 1
     for (i in treasures) {
-        val new_mutableList = mutableListOf<Int>()
+        val new_mutableList = mutableListOf<Pair<Int, Pair<Int, Set<String>>>>()
         for (j in 0 until count * 2) {
+            val last = mutableList[j / 2]
             if (j % 2 == 0) {
-                new_mutableList.add(mutableList[j / 2] + i.value.second)
+                val set = last.second.second + i.key
+                val new_pair = Pair(last.first + i.value.second, Pair(last.second.first + i.value.first, set.toMutableSet()))
+                new_mutableList.add(new_pair)
             } else {
-                new_mutableList.add(mutableList[j / 2] + 0)
+                new_mutableList.add(last)
             }
         }
         mutableList = new_mutableList
         count *= 2
-        println(new_mutableList)
     }
-//    val mutableList = mutableListOf<MutableList<Int>>()
-//    for (i in 0..treasures.size) {
-//        var local = mutableListOf<Int>()
-//        for (j in 0..capacity){
-//            local.add(0)
-//        }
-//        mutableList.add(local)
-//    }
-//    for (i in 0 until mutableList.size){
-//        println(mutableList[i])
-//    }
-    return setOf()
+    return mutableList.filter { it.second.first <= capacity }.sortedByDescending { it.first }[0].second.second
 }
