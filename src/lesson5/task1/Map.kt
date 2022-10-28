@@ -8,7 +8,6 @@ import lesson4.task1.mean
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
 // Вместе с предыдущими уроками = 33/47
-/**GROOOOOOOOO*/
 /**
  * Пример
  *
@@ -40,6 +39,17 @@ fun filterByCountryCode(
     phoneBook: MutableMap<String, String>,
     countryCode: String,
 ) {
+    val namesToRemove = mutableListOf<String>()
+
+    for ((name, phone) in phoneBook) {
+        if (!phone.startsWith(countryCode)) {
+            namesToRemove.add(name)
+        }
+    }
+
+    for (name in namesToRemove) {
+        phoneBook.remove(name)
+    }
 }
 
 /**
@@ -85,9 +95,11 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
+
+
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
     val res: MutableMap<Int, List<String>> = mutableMapOf()
-    grades.forEach { (key, value) -> res[value] = (listOf(key) + res[value] ?: listOf()) as List<String> }
+    grades.forEach { (key, value) -> res[value] = listOf(key) + (res[value] ?: listOf()) }
     return res.toMap()
 }
 
@@ -288,47 +300,36 @@ fun hasAnagrams(words: List<String>): Boolean {
  *       "EvilGnome" to setOf()
  *     )
  */
-//fun main() {
-//    var set = mutableSetOf(1)
-//    set.addAll(setOf(2, 3, 4, 1))
-//    println(set)
-//    println(propagateHandshakes(propagateHandshakes(
-//        mapOf(
-//            "Marat" to setOf("Mikhail", "Sveta"),
-//            "Sveta" to setOf("SOFA", "Marat"),
-//            "Mikhail" to setOf("Sveta", "LOLA"),
-//            "Friend" to setOf("GoodGnome"),
-//            "EvilGnome" to setOf()))))
-//}
 
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
-//{
-//    val newMap = mutableMapOf<String, Set<String>>()
-//
-//
-//    fun findFriends(nameNow: String, startName: String): Set<String> {
-//        val result = mutableSetOf<String>()
-//        if (nameNow in friends.keys) {
-//            for (i in friends[nameNow] ?: emptySet()) {
-//                if (i != startName) {
-//                    result.add(i)
-//                    if (i in newMap) {
-//                        result.addAll(newMap[i]?.filter { it != startName } ?: emptySet())
-//                    } else {
-//                        result.addAll(findFriends(i, startName))
-//                    }
-//
-//                }
-//            }
-//        }
-//        return result
-//    }
-//    for ((key, value) in friends) {
-//        value.forEach { if (it !in friends.keys) newMap[it] = setOf() }
-//        newMap[key] = findFriends(key, key)
-//    }
-//    return newMap
-//}
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+    val newMap = mutableMapOf<String, Set<String>>()
+
+
+    fun findFriends(nowName: String, resSet: MutableSet<String>): Set<String> {
+        if (nowName in friends) {
+            for (i in friends[nowName]!!) {
+                if (i !in resSet) {
+                    resSet.add(i)
+                    if (i in newMap) {
+                        resSet.addAll(newMap[i]!!)
+                    } else {
+                        resSet.addAll(findFriends(i, resSet))
+                    }
+
+                }
+            }
+        }
+        return resSet
+    }
+
+
+    for ((key, value) in friends) {
+        value.forEach { if (it !in friends.keys) newMap[it] = setOf() }
+        val resSet = mutableSetOf(key)
+        newMap[key] = (findFriends(key, resSet) - key).toSet()
+    }
+    return newMap
+}
 
 /**
  * Сложная (6 баллов)
@@ -349,14 +350,14 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  */
 
 
-
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    val res = list.groupBy({ list.indexOf(it) },
-        { if (list.indexOf(number - it) != -1 && list[list.indexOf(number - it)] * 2 != number) list.indexOf(number - it) else -1 })
-        .filter { it.value[0] != -1 }
-    if (res.isNotEmpty()) {
-        val keys = res.keys.toList()
-        return Pair(keys[0], res[keys[0]]!![0])
+    val res = mutableMapOf<Int, Int>()
+    for (i in list.indices) {
+        if (number - list[i] in res.keys) {
+            return Pair(res[number - list[i]]!!, i)
+        } else {
+            res[list[i]] = i
+        }
     }
     return Pair(-1, -1)
 }
@@ -365,7 +366,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  * Очень сложная (8 баллов)
  *
  * Входными данными является ассоциативный массив
- * "название сокровища"-"пара (вес сокровища, цена сокровища)"
+ * "название сокровища"-"пара (вес сокровища, sцена сокровища)"
  * и вместимость вашего рюкзака.
  * Необходимо вернуть множество сокровищ с максимальной суммарной стоимостью,
  * которые вы можете унести в рюкзаке.
@@ -382,32 +383,33 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
+//  println(findSumOfTwo(listOf("1", "2", "3"), 4))
+//  println(bagPacking(mapOf("0" to (468 to 1), "1" to (217 to 2)), 678))
+//  println(bagPacking(mapOf("1" to (5 to 3), "2" to (10 to 5), "3" to (6 to 4), "4" to (5 to 2)),14))
+//  println(bagPacking(mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),850))
+//  println(findSumOfTwo(listOf(1, 2, 3), 6))
+//  println(bagPacking( mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)), 450))
 
 fun main() {
-//    println(findSumOfTwo(listOf("1", "2", "3"), 4))
-//    println(bagPacking(mapOf("1" to (5 to 3), "2" to (10 to 5), "3" to (6 to 4), "4" to (5 to 2)),14))
-    println(bagPacking(mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),850))
-//    println(findSumOfTwo(listOf(1, 2, 3), 6))
-    println(bagPacking( mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)), 450))
-
+    bagPacking(mapOf("1" to (5 to 3), "2" to (10 to 5), "3" to (6 to 4), "4" to (5 to 2)), 14)
 }
 
-
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    val new_treasures = mutableMapOf<String, Pair<Double, Pair<Int, Int>>>()
-    for ((k, v) in treasures) {
-        new_treasures[k] = Pair(v.second.toDouble() / v.first.toDouble(), v)
-    }
-    new_treasures.entries.sortedBy { it.value.first }
-    var current_weigth = 0
-    var res_set = mutableSetOf<String>()
-    for (i in new_treasures) {
-        if (i.value.second.first + current_weigth <= capacity){
-            current_weigth += i.value.second.first
-            res_set.add(i.key)
+    var mutableList = mutableListOf(0)
+    var count = 1
+    for (i in treasures) {
+        val new_mutableList = mutableListOf<Int>()
+        for (j in 0 until count * 2) {
+            if (j % 2 == 0) {
+                new_mutableList.add(mutableList[j / 2] + i.value.second)
+            } else {
+                new_mutableList.add(mutableList[j / 2] + 0)
+            }
         }
+        mutableList = new_mutableList
+        count *= 2
+        println(new_mutableList)
     }
-
 //    val mutableList = mutableListOf<MutableList<Int>>()
 //    for (i in 0..treasures.size) {
 //        var local = mutableListOf<Int>()
@@ -419,5 +421,5 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
 //    for (i in 0 until mutableList.size){
 //        println(mutableList[i])
 //    }
-    return res_set
+    return setOf()
 }

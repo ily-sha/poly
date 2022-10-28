@@ -169,15 +169,17 @@ fun collatzSteps(x: Int): Int {
 
 fun nod(min: Int, max: Int): Int {
     var nod = 1
-    var min = min
-    var max = max
-    while (!isPrime(min)) {
-        val minDiv = minDivisor(min)
-        if (max % minDiv == 0) {
+    var min_var = min
+    var max_var = max
+    if (isPrime(min) || isPrime(max)) return nod
+    while (min_var != 1) {
+        val minDiv = minDivisor(min_var)
+        if (max_var % minDiv == 0) {
             nod *= minDiv
-            max /= minDiv
+            max_var /= minDiv
         }
-        min /= minDiv
+        min_var /= minDiv
+
     }
     return nod
 }
@@ -188,6 +190,14 @@ fun nod(min: Int, max: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
+
+fun main() {
+    println(nod(6, 21849))
+    println(nod(6, 9))
+    print(nod(20, 25))
+}
+
+
 fun lcm(m: Int, n: Int): Int {
     val min = minOf(m, n)
     val max = maxOf(n, m)
@@ -246,9 +256,6 @@ fun hasDifferentDigits(n: Int): Boolean = digitCountInNumber(n, n % 10) != digit
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun main() {
-    println(sin(PI / 2, 1e-5))
-}
 
 fun sin(x: Double, eps: Double): Double = TODO()
 
