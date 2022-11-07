@@ -265,8 +265,8 @@ fun extractRepeats(list: List<String>): Map<String, Int> =
 
 fun hasAnagrams(words: List<String>): Boolean {
     val map = words.groupBy { it.length }
-    for (i in map.keys) {
-        val arr = map[i]?.map { it.toList().sorted().joinToString(separator = "") }
+    for ((key, value) in map) {
+        val arr = map[key]?.map { it.toList().sorted().joinToString(separator = "") }
         if (arr?.toSet()?.size != arr?.size) {
             return true
         }
@@ -306,17 +306,15 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
 
 
     fun findFriends(nowName: String, resSet: MutableSet<String>): Set<String> {
-        if (nowName in friends) {
-            for (i in friends[nowName]!!) {
-                if (i !in resSet) {
-                    resSet.add(i)
-                    if (i in newMap) {
-                        resSet.addAll(newMap[i]!!)
-                    } else {
-                        resSet.addAll(findFriends(i, resSet))
-                    }
-
+        friends[nowName]?.forEach {
+            if (it !in resSet) {
+                resSet.add(it)
+                if (it in newMap) {
+                    resSet.addAll(newMap[it]!!)
+                } else {
+                    resSet.addAll(findFriends(it, resSet))
                 }
+
             }
         }
         return resSet
@@ -403,7 +401,8 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
             val last = mutableList[j / 2]
             if (j % 2 == 0) {
                 val set = last.second.second + i.key
-                val new_pair = Pair(last.first + i.value.second, Pair(last.second.first + i.value.first, set.toMutableSet()))
+                val new_pair =
+                    Pair(last.first + i.value.second, Pair(last.second.first + i.value.first, set.toMutableSet()))
                 new_mutableList.add(new_pair)
             } else {
                 new_mutableList.add(last)

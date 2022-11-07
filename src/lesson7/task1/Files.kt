@@ -91,23 +91,21 @@ fun deleteMarked(inputName: String, outputName: String) {
  */
 
 
+
+
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
 
-    fun getCountSubstrings(str: String, pattern: String): Int {
-        var start = 0
-        var count = 0
-        while (str.indexOf(pattern, startIndex = start) != -1) {
-            count++
-            start = str.indexOf(pattern, startIndex = start) + 1
-        }
-        return count
-    }
-
     val map = mutableMapOf<String, Int>()
-    substrings.forEach { map[it] = 0 }
-    for (i in File(inputName).readLines()) {
-        for (j in substrings) {
-            map[j] = getCountSubstrings(i.lowercase(), j.lowercase()) + map[j]!!
+    for (i in substrings.toSet()) {
+        map[i] = 0
+        for (j in File("input/substrings_in1.txt").readLines()) {
+            for (h in i.lowercase().toRegex().findAll(j.lowercase())) {
+                val element = map[i]
+                if (element != null) {
+                    map[i] = element + 1
+                }
+            }
+
         }
     }
     return map
@@ -243,8 +241,8 @@ fun top20Words(inputName: String): Map<String, Int> {
     }
     map.remove("")
     var list = map.entries.sortedByDescending { it.value }
-    if (map.keys.size > 21) {
-        list = list.subList(0, 21)
+    if (map.keys.size > 20) {
+        list = list.subList(0, 20)
     }
     return list.toMap()
 }
@@ -361,9 +359,7 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  *
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
-fun main() {
 
-}
 
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val output = File(outputName).bufferedWriter()
@@ -374,24 +370,28 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     output.newLine()
     output.write("<p>")
     for (i in File(inputName).readLines()) {
-        var str = i
+//        var str = i
+//        var str = "j_[`F~~\\nY**\\\"L!@5R\\n3**S|:b?[LOf64Z&51A=@\\\"H:y0**Y**Ac);~~Ne\\n~~ ~~wX**b3WQsk\\nz\\n*Q}BeL*dFM **\\\"*J2*,~~p4i-{'vke6**]R*A*g*l*=*p/Py*vb9@5k7ar8Vz**`^~~QF/p**7cT**\\\"f~~3f+#Jx5VBz#qD* **R`ix? V** * **\\nYX ,O* *=\$%2]r**Q4Ks]/t~~-*\$^\\\"*Qj**:*E@* ** **Qp**M,DMD**.*/Vv5ED*qh5**BX\\nZqs,%{383ZlhNc["
+        var str = "Vestibulum lobortis, ~~Est vehicula rutrum *suscipit*~~, ipsum ~~lib~~ero *placerat **tortor***,\n"
         if (i == "") {
             output.newLine()
             output.write("</p>")
             output.newLine()
             output.write("<p>")
         }
+        str = Regex("""~~(?=(!|@|#|$|}|%|^|&|\+|-|]|\w))""").replace(str, "<s>")
 
-        str = Regex("""(?<=(\w|<|>|\*))~~""").replace(str, "</s>")
-        str = Regex("""\*\*\*(?=(\w|<|>))""").replace(str, "<b><i>")
-        str = Regex("""(?<=(\w|<|>))\*\*\*""").replace(str, "</b></i>")
-        str = Regex("""(?<=(\w|<|>))\*\*""").replace(str, "</b>")
-        str = Regex("""~~(?=(\w|<|>))""").replace(str, "<s>")
-        str = Regex("""\*\*(?=(\w|<|>))""").replace(str, "<b>")
-        str = Regex("""(?<=(\w|<|>))\*""").replace(str, "</i>")
-        str = Regex("""\*(?=(\w|<|>))""").replace(str, "<i>")
+
+        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w|>|<))~~""").replace(str, "</s>")
+        str = Regex("""\*\*\*(?=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w|>|<))""").replace(str, "<b><i>")
+        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))\*\*\*""").replace(str, "</b></i>")
+        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))\*\*""").replace(str, "</b>")
+        str = Regex("""\*\*(?=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))""").replace(str, "<b>")
+        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))\*""").replace(str, "</i>")
+        str = Regex("""\*(?=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))""").replace(str, "<i>")
         output.newLine()
         output.write(str)
+        println(str)
     }
     output.newLine()
     output.write("</p>")

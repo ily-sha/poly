@@ -360,11 +360,11 @@ fun russian(num: Int): String {
         "восемьдесят", "девяносто")
     val listOfHundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот",
         "восемьсот", "девятьсот")
-    val special_symbol = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
+    val specialSymbol = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
         "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
 
     fun tens(n: Int): List<String> =
-        if ((n % 100) in 10..19) listOf(special_symbol[n % 10]) else listOf(listOfDozens[n % 100 / 10], listOfUnits[n % 10])
+        if ((n % 100) in 10..19) listOf(specialSymbol[n % 10]) else listOf(listOfDozens[n % 100 / 10], listOfUnits[n % 10])
 
 
     val len = digitNumber(num)
