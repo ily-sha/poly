@@ -74,6 +74,7 @@ class Triangle private constructor(private val points: Set<Point>) {
  * Окружность с заданным центром и радиусом
  */
 data class Circle(val center: Point, val radius: Double) {
+
     /**
      * Простая (2 балла)
      *

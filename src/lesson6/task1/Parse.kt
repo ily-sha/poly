@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -47,20 +48,20 @@ fun timeSecondsToStr(seconds: Int): String {
 /**
  * Пример: консольный ввод
  */
-fun main() {
-    println("Введите время в формате ЧЧ:ММ:СС")
-    val line = readLine()
-    if (line != null) {
-        val seconds = timeStrToSeconds(line)
-        if (seconds == -1) {
-            println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        } else {
-            println("Прошло секунд с начала суток: $seconds")
-        }
-    } else {
-        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
-    }
-}
+//fun main() {
+//    println("Введите время в формате ЧЧ:ММ:СС")
+//    val line = readLine()
+//    if (line != null) {
+//        val seconds = timeStrToSeconds(line)
+//        if (seconds == -1) {
+//            println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
+//        } else {
+//            println("Прошло секунд с начала суток: $seconds")
+//        }
+//    } else {
+//        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
+//    }
+//}
 
 
 /**
@@ -149,7 +150,20 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+
+
+
+fun firstDuplicateIndex(str: String): Int {
+    val arr = str.split(" ")
+    var len = 0
+    for (i in 0 until arr.size - 2) {
+        if (arr[i].lowercase() == arr[i + 1].lowercase()) {
+            return str.indexOf(arr[i], startIndex = len)
+        }
+        len += arr[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная (6 баллов)
@@ -162,7 +176,14 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+
+fun main(){
+    mostExpensive("Хлеб 39.9; Молоко 62; Курица 184.0; Конфеты 89.9")
+
+}
+fun mostExpensive(description: String): String =
+    description.split("; ").maxBy { it.split(" ")[1].toDouble() }.split(" ").get(0)
+
 
 /**
  * Сложная (6 баллов)
