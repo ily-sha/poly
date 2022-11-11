@@ -230,7 +230,13 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = chars.containsAll(word.toSet())
+
+fun main(){
+    println(canBuildFrom(listOf('R'), "r"))
+}
+
+fun canBuildFrom(chars: List<Char>, word: String): Boolean = chars.map { it.lowercaseChar() }.containsAll(word.lowercase().toSet())
+
 
 /**
  * Средняя (4 балла)
@@ -388,9 +394,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
 //  println(findSumOfTwo(listOf(1, 2, 3), 6))
 //  println(bagPacking( mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)), 450))
 
-fun main() {
-    println(bagPacking(mapOf("1" to (5 to 3), "2" to (10 to 5), "3" to (6 to 4), "4" to (5 to 2)), 14))
-}
+
 
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     TODO()
