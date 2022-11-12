@@ -2,9 +2,12 @@
 
 package lesson7.task1
 
+import lesson2.task1.ageDescription
 import lesson8.task2.bishopTrajectory
+import ru.spbstu.wheels.out
 import ru.spbstu.wheels.toMap
 import java.io.File
+import kotlin.math.max
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -68,16 +71,20 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
 
 fun deleteMarked(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    val file = File(inputName)
-    for (i in file.readLines()) {
-        if (i == "") {
-            writer.newLine()
-        } else if (i[0] != '_') {
-            writer.write(i)
-            writer.newLine()
+    try {
+        val file = File(inputName)
+        for (i in file.readLines()) {
+            if (i == "") {
+                writer.newLine()
+            } else if (i[0] != '_') {
+                writer.write(i)
+                writer.newLine()
+            }
         }
+    } finally {
+        writer.close()
     }
-    writer.close()
+
 }
 
 /**
@@ -130,16 +137,17 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
 fun sibilants(inputName: String, outputName: String) {
     val map = mapOf('ю' to 'у', 'Ю' to 'У', 'Я' to 'А', 'я' to 'а', 'ы' to 'и', 'Ы' to 'И')
     val outputFile = File(outputName).bufferedWriter()
-    for (i in File(inputName).readLines()) {
-        var str = i
-        for (i in Regex("""[шщжч](?=[юяы])""").findAll(i.lowercase())) {
-            str = str.replaceRange(i.range.last + 1, i.range.last + 2, map[str[i.range.last + 1]].toString())
-        }
-        outputFile.write(str)
-        outputFile.newLine()
+    outputFile.use { outputFile ->
+        for (i in File(inputName).readLines()) {
+            var str = i
+            for (i in Regex("""[шщжч](?=[юяы])""").findAll(i.lowercase())) {
+                str = str.replaceRange(i.range.last + 1, i.range.last + 2, map[str[i.range.last + 1]].toString())
+            }
+            outputFile.write(str)
+            outputFile.newLine()
 
+        }
     }
-    outputFile.close()
 }
 
 /**
@@ -160,7 +168,25 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    var maxLen = 0
+
+    val outputFile = File(outputName).bufferedWriter()
+    for (i in File(inputName).readLines()) {
+        if (i.trim().length > maxLen) maxLen = i.trim().length
+    }
+    outputFile.use { outputFile ->
+        for (i in File(inputName).readLines()) {
+            var addN = maxLen - i.trim().length
+            if (addN % 2 != 0) {
+                addN -= 1
+            }
+            addN /= 2
+            val newStr = " ".repeat(addN) + i.trim()
+            outputFile.write(newStr)
+            outputFile.newLine()
+
+        }
+    }
 }
 
 /**
@@ -192,6 +218,29 @@ fun centerFile(inputName: String, outputName: String) {
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
     TODO()
+//    var maxLen = 0
+//
+//    val outputFile = File(outputName).bufferedWriter()
+//    for (i in File(inputName).readLines()) {
+//        val nowLen = Regex("""(\s)+""").replace(i, " ").length
+//        if (nowLen > maxLen) maxLen = nowLen
+//    }
+//    for (i in File(inputName).readLines()) {
+//        val pattern = Regex("""\s""")
+//        val nowLen = pattern.replace(i, "").length
+//        if (nowLen != 0) {
+//            val nowWords = pattern.replace(i, " ").split(" ").size
+//            if (nowWords != 1) {
+//                val d = (maxLen - nowLen).toDouble() / (nowWords - 1).toDouble()
+//                println("$d, $i")
+////                if (d % 1.0 == 0.0){
+////
+////                }
+//            }
+//        }
+//
+//    }
+//    outputFile.close()
 }
 
 /**
@@ -217,32 +266,23 @@ fun alignFileByWidth(inputName: String, outputName: String) {
 
 fun top20Words(inputName: String): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
-
-    fun check(currentString: String) {
-        val element = map[currentString]
-        if (element != null) {
-            map[currentString] = element + 1
-        } else {
-            map[currentString] = 1
-        }
-    }
     for (i in File(inputName).readLines()) {
-        var last = -1
-        var currentString = ""
-        for (j in Regex("""[а-яa-zё]""").findAll(i.lowercase())) {
-            if (last + 1 != j.range.first) {
-                check(currentString)
-                currentString = ""
+        for (j in Regex("""[А-яA-zё]*""").findAll(i.lowercase())) {
+            if (j.value != ""){
+                val element = map[j.value]
+                if (element != null) {
+                    map[j.value] = element + 1
+                } else {
+                    map[j.value] = 1
+                }
             }
-            currentString += j.value
-            last = j.range.first
         }
-        check(currentString)
     }
     map.remove("")
+
     var list = map.entries.sortedByDescending { it.value }
-    if (map.keys.size > 20) {
-        list = list.subList(0, 20)
+    if (map.keys.size > 21) {
+        list = list.subList(0, 21)
     }
     return list.toMap()
 }
@@ -362,44 +402,45 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
 
 
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    val output = File(outputName).bufferedWriter()
-    output.newLine()
-    output.write("<html>")
-    output.newLine()
-    output.write("<body>")
-    output.newLine()
-    output.write("<p>")
-    for (i in File(inputName).readLines()) {
-//        var str = i
-//        var str = "j_[`F~~\\nY**\\\"L!@5R\\n3**S|:b?[LOf64Z&51A=@\\\"H:y0**Y**Ac);~~Ne\\n~~ ~~wX**b3WQsk\\nz\\n*Q}BeL*dFM **\\\"*J2*,~~p4i-{'vke6**]R*A*g*l*=*p/Py*vb9@5k7ar8Vz**`^~~QF/p**7cT**\\\"f~~3f+#Jx5VBz#qD* **R`ix? V** * **\\nYX ,O* *=\$%2]r**Q4Ks]/t~~-*\$^\\\"*Qj**:*E@* ** **Qp**M,DMD**.*/Vv5ED*qh5**BX\\nZqs,%{383ZlhNc["
-        var str = "Vestibulum lobortis, ~~Est vehicula rutrum *suscipit*~~, ipsum ~~lib~~ero *placerat **tortor***,\n"
-        if (i == "") {
-            output.newLine()
-            output.write("</p>")
-            output.newLine()
-            output.write("<p>")
-        }
-        str = Regex("""~~(?=(!|@|#|$|}|%|^|&|\+|-|]|\w))""").replace(str, "<s>")
-
-
-        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w|>|<))~~""").replace(str, "</s>")
-        str = Regex("""\*\*\*(?=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w|>|<))""").replace(str, "<b><i>")
-        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))\*\*\*""").replace(str, "</b></i>")
-        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))\*\*""").replace(str, "</b>")
-        str = Regex("""\*\*(?=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))""").replace(str, "<b>")
-        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))\*""").replace(str, "</i>")
-        str = Regex("""\*(?=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))""").replace(str, "<i>")
-        output.newLine()
-        output.write(str)
-        println(str)
-    }
-    output.newLine()
-    output.write("</p>")
-    output.newLine()
-    output.write("</body>")
-    output.newLine()
-    output.write("</html>")
-    output.close()
+    TODO()
+//    val output = File(outputName).bufferedWriter()
+//    output.newLine()
+//    output.write("<html>")
+//    output.newLine()
+//    output.write("<body>")
+//    output.newLine()
+//    output.write("<p>")
+//    for (i in File(inputName).readLines()) {
+////        var str = i
+////        var str = "j_[`F~~\\nY**\\\"L!@5R\\n3**S|:b?[LOf64Z&51A=@\\\"H:y0**Y**Ac);~~Ne\\n~~ ~~wX**b3WQsk\\nz\\n*Q}BeL*dFM **\\\"*J2*,~~p4i-{'vke6**]R*A*g*l*=*p/Py*vb9@5k7ar8Vz**`^~~QF/p**7cT**\\\"f~~3f+#Jx5VBz#qD* **R`ix? V** * **\\nYX ,O* *=\$%2]r**Q4Ks]/t~~-*\$^\\\"*Qj**:*E@* ** **Qp**M,DMD**.*/Vv5ED*qh5**BX\\nZqs,%{383ZlhNc["
+//        var str = "Vestibulum lobortis, ~~Est vehicula rutrum *suscipit*~~, ipsum ~~lib~~ero *placerat **tortor***,\n"
+//        if (i == "") {
+//            output.newLine()
+//            output.write("</p>")
+//            output.newLine()
+//            output.write("<p>")
+//        }
+//        str = Regex("""~~(?=(!|@|#|$|}|%|^|&|\+|-|]|\w))""").replace(str, "<s>")
+//
+//
+//        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w|>|<))~~""").replace(str, "</s>")
+//        str = Regex("""\*\*\*(?=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w|>|<))""").replace(str, "<b><i>")
+//        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))\*\*\*""").replace(str, "</b></i>")
+//        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))\*\*""").replace(str, "</b>")
+//        str = Regex("""\*\*(?=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))""").replace(str, "<b>")
+//        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))\*""").replace(str, "</i>")
+//        str = Regex("""\*(?=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))""").replace(str, "<i>")
+//        output.newLine()
+//        output.write(str)
+//        println(str)
+//    }
+//    output.newLine()
+//    output.write("</p>")
+//    output.newLine()
+//    output.write("</body>")
+//    output.newLine()
+//    output.write("</html>")
+//    output.close()
 
 }
 

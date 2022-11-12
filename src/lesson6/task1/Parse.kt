@@ -151,7 +151,8 @@ fun plusMinus(expression: String): Int = TODO()
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun main(){
-    println(firstDuplicateIndex("a j a j a a"))
+    var str = "Жуков Илья: Математика - 4, Химия - 3, Физика - 3"
+    val map = mutableMapOf<String, Int>()
 }
 
 
