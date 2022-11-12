@@ -90,21 +90,8 @@ fun deleteMarked(inputName: String, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
+//
 
-fun main(){
-    var start = 0
-    while (Regex("""\.""").find("--.--", startIndex = start) != null) {
-        println(Regex("""\.""").find("--.--", startIndex = start)!!.groups)
-        if (start == Regex("""\.""").find("--.--", startIndex = start)!!.range.last){
-            start += 1
-        } else {
-            start = Regex("""\.""").find("--.--", startIndex = start)!!.range.last
-        }
-    }
-
-
-
-}
 
 
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
@@ -115,7 +102,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
             if (i !in map) {
                 map[i] = 0
             }
-            var pattern = i.toRegex()
+            var pattern = i.lowercase().toRegex()
             if (listOf(".").contains(i)){
                 pattern = Regex("""\$i""")
             }
@@ -281,6 +268,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  */
 
 
+
 fun top20Words(inputName: String): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
     for (i in File(inputName).readLines()) {
@@ -296,13 +284,13 @@ fun top20Words(inputName: String): Map<String, Int> {
         }
     }
     map.remove("")
-    val resMap = mutableMapOf<String, Int>()
+    var resMap = mutableMapOf<String, Int>()
     val list = map.entries.sortedByDescending { it.value }
     if (map.keys.size > 21) {
         for (i in list.subList(0, 21)) {
             resMap[i.key] = i.value
         }
-    }
+    } else resMap = map
     return resMap
 }
 
