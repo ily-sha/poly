@@ -4,6 +4,8 @@ package lesson7.task1
 
 import java.io.File
 import kotlin.math.max
+import kotlin.math.roundToInt
+import kotlin.text.Typography.less
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -95,7 +97,6 @@ fun deleteMarked(inputName: String, outputName: String) {
 
 
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-
     val map = mutableMapOf<String, Int>()
     for (j in File(inputName).readLines()) {
         for (i in substrings.toSet()) {
@@ -220,30 +221,64 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
-//    var maxLen = 0
-//
-//    val outputFile = File(outputName).bufferedWriter()
-//    for (i in File(inputName).readLines()) {
-//        val nowLen = Regex("""(\s)+""").replace(i, " ").length
-//        if (nowLen > maxLen) maxLen = nowLen
-//    }
-//    for (i in File(inputName).readLines()) {
-//        val pattern = Regex("""\s""")
-//        val nowLen = pattern.replace(i, "").length
-//        if (nowLen != 0) {
-//            val nowWords = pattern.replace(i, " ").split(" ").size
-//            if (nowWords != 1) {
-//                val d = (maxLen - nowLen).toDouble() / (nowWords - 1).toDouble()
-//                println("$d, $i")
-////                if (d % 1.0 == 0.0){
-////
-////                }
-//            }
-//        }
-//
-//    }
-//    outputFile.close()
+
+    var maxLen = 0
+
+    val outputFile = File(outputName).bufferedWriter()
+    for (i in File(inputName).readLines()) {
+        val nowLen = Regex("""(\s){2,}""").replace(i.trim(), " ").length
+        if (nowLen > maxLen) maxLen = nowLen
+    }
+    var isFirstLine = true
+    outputFile.use { outputFile ->
+        for (i in File(inputName).readLines()) {
+            val nowLen = Regex("""\s""").replace(i.trim(), "").length
+            if (nowLen != 0) {
+                val nowWords = Regex("""(\s){2,}""").replace(i.trim(), " ").split(" ").size
+                if (nowWords != 1) {
+                    val d = (maxLen - nowLen).toDouble() / (nowWords - 1).toDouble()
+//                    println("$d, ${i.trim()}, $nowLen")
+                    var predominantNumber = (nowWords - 1) / 2
+                    var more = d.roundToInt()
+                    var less = 0
+                    less = if (d % 1.0 >= 0.5) more - 1
+                    else more + 1
+                    while (predominantNumber * more + (nowWords - 1 - predominantNumber) * less != maxLen - nowLen){
+                        predominantNumber++
+                    }
+//                    println("$predominantNumber - $more, ${(nowWords - 1 - predominantNumber)} - $less")
+                    var resStr = ""
+                    val allWords = Regex("""(\s){2,}""").replace(i.trim(), " ").split(" ")
+                    if (less > more) {
+                        val less2 = less
+                        less = more
+                        more = less2
+                        predominantNumber = nowWords - 1 - predominantNumber
+                    }
+                    for (j in allWords.indices) {
+                        resStr += if (j < predominantNumber){
+                            allWords[j] + " ".repeat(more)
+                        } else {
+                            if (j != allWords.size - 1) allWords[j] + " ".repeat(less) else allWords[j]
+                        }
+                    }
+                    if (!isFirstLine) outputFile.newLine()
+                    outputFile.write(resStr)
+
+                } else {
+                    if (!isFirstLine) outputFile.newLine()
+
+                    outputFile.write(i.trim())
+                }
+
+            } else {
+                if (!isFirstLine) outputFile.newLine()
+                outputFile.write("")
+            }
+            if (isFirstLine) isFirstLine = false
+        }
+
+    }
 }
 
 /**
