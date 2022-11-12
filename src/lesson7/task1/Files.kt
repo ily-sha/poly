@@ -2,10 +2,6 @@
 
 package lesson7.task1
 
-import lesson2.task1.ageDescription
-import lesson8.task2.bishopTrajectory
-import ru.spbstu.wheels.out
-import ru.spbstu.wheels.toMap
 import java.io.File
 import kotlin.math.max
 
@@ -71,7 +67,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
 
 fun deleteMarked(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    try {
+    writer.use { writer ->
         val file = File(inputName)
         for (i in file.readLines()) {
             if (i == "") {
@@ -81,8 +77,6 @@ fun deleteMarked(inputName: String, outputName: String) {
                 writer.newLine()
             }
         }
-    } finally {
-        writer.close()
     }
 
 }
@@ -97,24 +91,46 @@ fun deleteMarked(inputName: String, outputName: String) {
  *
  */
 
+fun main(){
+    var start = 0
+    while (Regex("""\.""").find("--.--", startIndex = start) != null) {
+        println(Regex("""\.""").find("--.--", startIndex = start)!!.groups)
+        if (start == Regex("""\.""").find("--.--", startIndex = start)!!.range.last){
+            start += 1
+        } else {
+            start = Regex("""\.""").find("--.--", startIndex = start)!!.range.last
+        }
+    }
 
+
+
+}
 
 
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
 
     val map = mutableMapOf<String, Int>()
-    for (i in substrings.toSet()) {
-        map[i] = 0
-        for (j in File(inputName).readLines()) {
-            for (h in i.lowercase().toRegex().findAll(j.lowercase())) {
-                val element = map[i]
-                if (element != null) {
-                    map[i] = element + 1
-                }
+    for (j in File(inputName).readLines()) {
+        for (i in substrings.toSet()) {
+            if (i !in map) {
+                map[i] = 0
+            }
+            var pattern = i.toRegex()
+            if (listOf(".").contains(i)){
+                pattern = Regex("""\$i""")
+            }
+            var start = 0
+            while (pattern.find(j.lowercase(), startIndex = start) != null) {
+//                println(pattern.find(j.lowercase(), startIndex = start)!!.groups)
+                start = pattern.find(j.lowercase(), startIndex = start)!!.range.last
+                map[i] = map[i]!! + 1
+                if (i.length == 1) start++
+
             }
 
         }
     }
+
     return map
 }
 
@@ -264,11 +280,12 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 
+
 fun top20Words(inputName: String): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
     for (i in File(inputName).readLines()) {
         for (j in Regex("""[А-яA-zё]*""").findAll(i.lowercase())) {
-            if (j.value != ""){
+            if (j.value != "") {
                 val element = map[j.value]
                 if (element != null) {
                     map[j.value] = element + 1
@@ -279,12 +296,14 @@ fun top20Words(inputName: String): Map<String, Int> {
         }
     }
     map.remove("")
-
-    var list = map.entries.sortedByDescending { it.value }
+    val resMap = mutableMapOf<String, Int>()
+    val list = map.entries.sortedByDescending { it.value }
     if (map.keys.size > 21) {
-        list = list.subList(0, 21)
+        for (i in list.subList(0, 21)) {
+            resMap[i.key] = i.value
+        }
     }
-    return list.toMap()
+    return resMap
 }
 
 /**
