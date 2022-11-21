@@ -109,7 +109,6 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
             }
             var start = 0
             while (pattern.find(j.lowercase(), startIndex = start) != null) {
-//                println(pattern.find(j.lowercase(), startIndex = start)!!.groups)
                 start = pattern.find(j.lowercase(), startIndex = start)!!.range.last
                 map[i] = map[i]!! + 1
                 if (i.length == 1) start++
@@ -137,9 +136,8 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 
-
+val map = mapOf('ю' to 'у', 'Ю' to 'У', 'Я' to 'А', 'я' to 'а', 'ы' to 'и', 'Ы' to 'И')
 fun sibilants(inputName: String, outputName: String) {
-    val map = mapOf('ю' to 'у', 'Ю' to 'У', 'Я' to 'А', 'я' to 'а', 'ы' to 'и', 'Ы' to 'И')
     val outputFile = File(outputName).bufferedWriter()
     outputFile.use { outputFile ->
         for (i in File(inputName).readLines()) {
@@ -173,7 +171,6 @@ fun sibilants(inputName: String, outputName: String) {
  */
 fun centerFile(inputName: String, outputName: String) {
     var maxLen = 0
-
     val outputFile = File(outputName).bufferedWriter()
     for (i in File(inputName).readLines()) {
         if (i.trim().length > maxLen) maxLen = i.trim().length
@@ -220,10 +217,10 @@ fun centerFile(inputName: String, outputName: String) {
  * 7) В самой длинной строке каждая пара соседних слов должна быть отделена В ТОЧНОСТИ одним пробелом
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
+
+
 fun alignFileByWidth(inputName: String, outputName: String) {
-
     var maxLen = 0
-
     val outputFile = File(outputName).bufferedWriter()
     for (i in File(inputName).readLines()) {
         val nowLen = Regex("""(\s){2,}""").replace(i.trim(), " ").length

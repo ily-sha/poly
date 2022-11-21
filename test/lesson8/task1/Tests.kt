@@ -174,19 +174,20 @@ class Tests {
     @Tag("3")
     fun crossPoint() {
         assertApproxEquals(
-            Point(2.0, 3.0),
-            Line(Point(2.0, 0.0), PI / 2).crossPoint(
-                Line(Point(0.0, 3.0), 0.0)
-            ),
-            1e-5
-        )
-        assertApproxEquals(
             Point(2.0, 2.0),
             Line(Point(0.0, 0.0), PI / 4).crossPoint(
                 Line(Point(0.0, 4.0), 3 * PI / 4)
             ),
             1e-5
         )
+        assertApproxEquals(
+            Point(2.0, 3.0),
+            Line(Point(2.0, 0.0), PI / 2).crossPoint(
+                Line(Point(0.0, 3.0), 0.0)
+            ),
+            1e-5
+        )
+
 
         val p = Point(1.0, 3.0)
 

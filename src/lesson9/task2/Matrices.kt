@@ -60,7 +60,94 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+
+fun main() {
+//    println(generateSpiral(8, 8))
+//    println()
+    println(generateSpiral(5, 6))
+    println()
+    println(generateSpiral(3, 3))
+    println()
+    println(generateSpiral(4, 7))
+}
+
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix(height, width, 0)
+    var horizon = width
+    var vertical = height - 1
+    var start = 1
+
+    for (i in 0 until height / 2) {
+        var last = 0
+        var x = 0
+        for (j in start until start + horizon) {
+            matrix[i, i + x] = j
+            last = j
+            x++
+        }
+        horizon -= 2
+        start = last + 2 * vertical + horizon + 1
+        vertical -= 2
+
+    }
+    horizon = width
+    vertical = height - 2
+    start = height - 1 + width
+    for (i in 0 until height / 2) {
+        var last = 0
+        var x = 0
+        for (j in start until start + horizon) {
+            matrix[height - i - 1, width - x - i - 1] = j
+            last = j
+            x++
+        }
+        horizon -= 2
+        start = last + 2 * vertical + horizon - 1
+        vertical -= 2
+        if (height % 2 != 0 && i == height / 2 - 1) {
+            last += 2
+            for (h in last until last + horizon){
+                matrix[height / 2, horizon] = h
+                horizon++
+            }
+        }
+    }
+    start = width + 1
+    horizon = width - 1
+    vertical = height - 2
+
+    var last = 0
+    for (i in 1 .. height / 2) {
+        var y = 0
+        for (j in start until start + vertical) {
+            matrix[i + y, width - i] = j
+            last = j
+            y++
+        }
+        start = last + vertical + 1 + 2 * horizon
+        vertical -= 2
+        horizon -= 2
+    }
+    start = 2 * width + height - 1
+    horizon = width - 1
+    vertical = height - 2
+    last = 0
+    for (i in 1 .. height / 2) {
+        var y = 1
+        for (j in start until start + vertical) {
+            matrix[height - i - y, i - 1] = j
+            last = j
+            y++
+        }
+        vertical -= 2
+        start = last + vertical - 1 + 2 * horizon
+        horizon -= 2
+    }
+
+
+
+    return matrix
+}
 
 /**
  * Сложная (5 баллов)
