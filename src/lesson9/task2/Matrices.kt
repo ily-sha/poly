@@ -64,11 +64,12 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
 fun main() {
 //    println(generateSpiral(8, 8))
 //    println()
-    println(generateSpiral(5, 6))
-    println()
-    println(generateSpiral(3, 3))
-    println()
-    println(generateSpiral(4, 7))
+//    println(generateSpiral(5, 6))
+//    println()
+//    println(generateSpiral(3, 3))
+//    println()
+//    println(generateSpiral(4, 7))
+    println(generateSpiral(46, 5))
 }
 
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {

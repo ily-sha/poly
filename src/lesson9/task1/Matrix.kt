@@ -37,7 +37,6 @@ interface Matrix<E> {
 
     operator fun set(cell: Cell, value: E)
 
-    fun contentEquals(other: Matrix<*>): Boolean
 
 }
 
@@ -73,8 +72,18 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, val e: E)
     }
 
 
-    override fun equals(other: Any?) =
-        other is Matrix<*> && other.height == this.height && other.width == this.width && contentEquals(other)
+    override fun equals(other: Any?): Boolean {
+        if (other is Matrix<*> && other.height == this.height && other.width == this.width){
+            for (i in 0 until height) {
+                for (j in 0 until width) {
+                    if (get(i, j) != other[i, j]) return false
+                }
+            }
+            return true
+        }
+        return false
+    }
+
 
     override fun toString() = buildString {
         append("[")
@@ -86,7 +95,6 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, val e: E)
                 if (column != width - 1){
                     append(",")
                 }
-                // Spaces!
             }
             if (row != height - 1){
                 append("]\n")
@@ -96,13 +104,12 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, val e: E)
     }
 
 
-    override fun contentEquals(other: Matrix<*>): Boolean {
-        for (i in 0 until height) {
-            for (j in 0 until width) {
-                if (get(i, j) != other[i, j]) return false
-            }
-        }
-        return true
+    override fun hashCode(): Int {
+        var result = height
+        result = 31 * result + width
+        result = 31 * result + (e?.hashCode() ?: 0)
+        result = 31 * result + list.hashCode()
+        return result
     }
 }
 
