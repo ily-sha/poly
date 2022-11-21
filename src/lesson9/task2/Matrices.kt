@@ -70,13 +70,17 @@ fun main() {
 //    println()
 //    println(generateSpiral(4, 7))
 //    println(generateSpiral(46, 5))
-    println(generateSpiral(2, 1))
+    println(generateSpiral(3, 2))
 }
 
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     val matrix = createMatrix(height, width, 0)
     if (height == 1) {
         for (j in 0 until width) matrix[0, j] = j + 1
+    }
+    if (width == 1) {
+        for (j in 0 until height) matrix[j, 0] = j + 1
+        return matrix
     }
     var horizon = width
     var vertical = height - 1
