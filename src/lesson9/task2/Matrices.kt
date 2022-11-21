@@ -64,13 +64,14 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
 fun main() {
 //    println(generateSpiral(8, 8))
 //    println()
-//    println(generateSpiral(5, 6))
-//    println()
+    println(generateSpiral(5, 6))
+    println()
 //    println(generateSpiral(3, 3))
 //    println()
 //    println(generateSpiral(4, 7))
 //    println(generateSpiral(46, 5))
-    println(generateSpiral(3, 2))
+//    println(generateSpiral(3, 2))
+    println(generateSpiral(3, 4))
 }
 
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {
@@ -115,9 +116,10 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
         vertical -= 2
         if (height % 2 != 0 && i == height / 2 - 1) {
             last += 2
-            for (h in last until last + horizon){
-                matrix[height / 2, horizon] = h
-                horizon++
+            x = 0
+            for (h in last + horizon - 1 downTo  last){
+                matrix[height / 2, width - x - i - 2] = h
+                x++
             }
         }
     }
