@@ -103,14 +103,33 @@ fun main() {
 //    println(myFun(listOf("Иванов Петр: улица Ленина, 41, кв. 2", "Иванов Илья: улица Ленина, 41, кв. 2"),"Иванов Илья"))
 //    println(generateSpiral(8, 8))
 //    println()
-//    println(generateSpiral(5, 6))
-//    println()
+
+    println(generateSpiral(6, 3))
+    println()
+    println(generateSpiral(7, 3))
+    println()
+    println(generateSpiral(8, 3))
+    println()
+
 //    println(generateSpiral(3, 3))
 //    println()
 //    println(generateSpiral(4, 7))
-    println(generateSpiral(46, 5))
-////    println(generateSpiral(3, 2))
+//    println()
+//
+//    println(generateSpiral(5, 3))
+//    println()
+//    println(generateSpiral(46, 5))
+//    println()
+
+//    println(generateSpiral(3, 2))
+//    println()
 //    println(generateSpiral(3, 4))
+//    println()
+//    println(generateSpiral(3, 5))
+//    println()
+//    println(generateSpiral(3, 6))
+//    println()
+//    println(generateSpiral(5, 3))
 
     
 }
@@ -155,7 +174,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
         horizon -= 2
         start = last + 2 * vertical + horizon - 1
         vertical -= 2
-        if (height % 2 != 0 && i == height / 2 - 1) {
+        if (height < width && height % 2 != 0 && i == height / 2 - 1) {
             last += 2
             x = 0
             for (h in last + horizon - 1 downTo  last){
@@ -194,6 +213,13 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
         vertical -= 2
         start = last + vertical - 1 + 2 * horizon
         horizon -= 2
+        if (height > width && width % 2 != 0 && i == width / 2) {
+            last += 2
+            for (h in last..last + vertical - 1){
+                matrix[height - y + 1, i] = h
+                y--
+            }
+        }
     }
 
 
