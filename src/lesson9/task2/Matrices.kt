@@ -105,10 +105,10 @@ fun main() {
 //    println()
 //    println(generateSpiral(5, 6))
 //    println()
-////    println(generateSpiral(3, 3))
-////    println()
-////    println(generateSpiral(4, 7))
-////    println(generateSpiral(46, 5))
+//    println(generateSpiral(3, 3))
+//    println()
+//    println(generateSpiral(4, 7))
+    println(generateSpiral(46, 5))
 ////    println(generateSpiral(3, 2))
 //    println(generateSpiral(3, 4))
 
@@ -167,15 +167,15 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     start = width + 1
     horizon = width - 1
     vertical = height - 2
-
     var last = 0
-    for (i in 1 .. height / 2) {
+    for (i in 1 .. width / 2) {
         var y = 0
         for (j in start until start + vertical) {
             matrix[i + y, width - i] = j
             last = j
             y++
         }
+
         start = last + vertical + 1 + 2 * horizon
         vertical -= 2
         horizon -= 2
@@ -184,7 +184,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     horizon = width - 1
     vertical = height - 2
     last = 0
-    for (i in 1 .. height / 2) {
+    for (i in 1 .. width / 2) {
         var y = 1
         for (j in start until start + vertical) {
             matrix[height - i - y, i - 1] = j

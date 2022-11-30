@@ -72,9 +72,9 @@ class Tests {
     @Test
     @Tag("Example")
     fun isPalindrome() {
-        assertFalse(isPalindrome("Р‘Р°СЂР°Р±Р°РЅ"))
-        assertTrue(isPalindrome("Рђ СЂРѕР·Р° СѓРїР°Р»Р° РЅР° Р»Р°РїСѓ РђР·РѕСЂР°"))
-        assertTrue(isPalindrome("РЁР°Р»Р°С€"))
+        assertFalse(isPalindrome("Барабан"))
+        assertTrue(isPalindrome("А роза упала на лапу Азора"))
+        assertTrue(isPalindrome("Шалаш"))
     }
 
     @Test
@@ -231,12 +231,12 @@ class Tests {
     @Test
     @Tag("7")
     fun russian() {
-        assertEquals("С‚СЂРёСЃС‚Р° СЃРµРјСЊРґРµСЃСЏС‚ РїСЏС‚СЊ", russian(375))
-        assertEquals("РґРІР°РґС†Р°С‚СЊ РґРІРµ С‚С‹СЃСЏС‡Рё РґРµРІСЏС‚СЊСЃРѕС‚ С€РµСЃС‚СЊРґРµСЃСЏС‚ С‡РµС‚С‹СЂРµ", russian(22964))
-        assertEquals("СЃС‚Рѕ РґРµРІСЏС‚РЅР°РґС†Р°С‚СЊ С‚С‹СЃСЏС‡ РїСЏС‚СЊСЃРѕС‚ РІРѕСЃРµРјСЊ", russian(119508))
-        assertEquals("РґРІРµ С‚С‹СЃСЏС‡Рё С‚СЂРё", russian(2003))
-        assertEquals("РґРІРµСЃС‚Рё С‚С‹СЃСЏС‡ РґРІР°", russian(200002))
-        assertEquals("РґРµРІСЏС‚СЊСЃРѕС‚ С‚С‹СЃСЏС‡", russian(900000))
-        assertEquals("РґРІРµРЅР°РґС†Р°С‚СЊ", russian(12))
+        assertEquals("триста семьдесят пять", russian(375))
+        assertEquals("двадцать две тысячи девятьсот шестьдесят четыре", russian(22964))
+        assertEquals("сто девятнадцать тысяч пятьсот восемь", russian(119508))
+        assertEquals("две тысячи три", russian(2003))
+        assertEquals("двести тысяч два", russian(200002))
+        assertEquals("девятьсот тысяч", russian(900000))
+        assertEquals("двенадцать", russian(12))
     }
 }
