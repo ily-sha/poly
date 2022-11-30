@@ -42,6 +42,7 @@ class Triangle private constructor(private val points: Set<Point>) {
      */
     fun halfPerimeter() = (a.distance(b) + b.distance(c) + c.distance(a)) / 2.0
 
+
     /**
      * Пример: площадь
      */

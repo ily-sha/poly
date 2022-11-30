@@ -92,14 +92,7 @@ fun dateDigitToStr(digital: String): String = TODO()
  */
 
 
-fun flattenPhoneNumber(phone: String): String {
-    if (Regex("""""(\+[\s\-]*\d+)?[\s\-]*(\([\s\-]*\d+\))?[\s\-]*\d+[\d\s\-]*""").matches(phone)) {
-        val phoneChars = phone.split("")
-        val illegalSymbol = listOf("(", ")", " ", "", "-")
-        return phoneChars.filter { !illegalSymbol.contains(it) }.joinToString(separator = "")
-    }
-    return ""
-}
+fun flattenPhoneNumber(phone: String): String = TODO()
 
 /**
  * Средняя (5 баллов)

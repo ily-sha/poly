@@ -100,7 +100,8 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
     val res: MutableMap<Int, List<String>> = mutableMapOf()
     grades.forEach { (key, value) ->
-        res[value] = listOf(key) + (res[value] ?: listOf()) }
+        res[value] = listOf(key) + (res[value] ?: listOf())
+    }
     return res.toMap()
 }
 
@@ -232,7 +233,8 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = chars.map { it.lowercaseChar() }.containsAll(word.lowercase().toSet())
+fun canBuildFrom(chars: List<Char>, word: String): Boolean =
+    chars.map { it.lowercaseChar() }.containsAll(word.lowercase().toSet())
 
 
 /**
@@ -392,7 +394,6 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
 //  println(bagPacking(mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),850))
 //  println(findSumOfTwo(listOf(1, 2, 3), 6))
 //  println(bagPacking( mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)), 450))
-
 
 
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {

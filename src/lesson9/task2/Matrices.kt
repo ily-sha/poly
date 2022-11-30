@@ -61,17 +61,58 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  *  9  8  7  6
  */
 
+/**
+ * На вход функции подается список строк в формате
+ * “Иванов Петр: улица Ленина, 41, кв. 2”
+ * Каждая строка начинается с фамилии и имени человека (разделенных
+ * одним пробелом), далее через запятую пробел(ы) следует адрес:
+ * название улицы (может состоять из нескольких слов через
+ * один пробел),
+ * номер дома (целое число) и номер квартиры
+ * (с префиксом “кв.”; целое число).
+ *
+ * На вход также подается имя человека.
+ *
+ * Вернуть список людей, которые являются соседями
+ * указанного человека
+ * (соседями считаются люди, которые живут в одном доме).
+ *
+ * Имя функции и тип результата функции предложить самостоятельно;
+ * в задании указан тип Collection<Any>,
+ * то есть коллекция объектов произвольного типа,
+ * можно (и нужно) изменить как вид коллекции,
+ * так и тип её элементов.
+ *
+ * При нарушении формата входной строки,
+ * бросить IllegalArgumentException
+ *
+ * Кроме функции, следует написать тесты,
+ * подтверждающие её работоспособность.
+ */
+fun myFun(table: Map<String, Int>, taxes: String): Collection<Any> {
+    val result = mutableMapOf<String, Int>()
+    for (i in taxes.split("\n")) {
+        if (Regex("""(([А-я])+ *)+ - (([А-я])+ *)+ - \d+""").matches(i)) {
+            val (name, type, profit) = i.split(" - ")
+            result[name] = profit.toInt() * (table[type] ?: 13) / 100
+        } else throw IllegalArgumentException("")
+    }
+    return result.entries.sortedByDescending { it.value }.map { it.value }
+}
 fun main() {
+//    println(myFun(listOf("Иванов Петр: улица Ленина, 41, кв. 2", "Иванов Илья: улица Ленина, 41, кв. 2"),"Иванов Илья"))
 //    println(generateSpiral(8, 8))
 //    println()
-    println(generateSpiral(5, 6))
-    println()
-//    println(generateSpiral(3, 3))
+//    println(generateSpiral(5, 6))
 //    println()
-//    println(generateSpiral(4, 7))
-//    println(generateSpiral(46, 5))
-//    println(generateSpiral(3, 2))
-    println(generateSpiral(3, 4))
+////    println(generateSpiral(3, 3))
+////    println()
+////    println(generateSpiral(4, 7))
+////    println(generateSpiral(46, 5))
+////    println(generateSpiral(3, 2))
+//    println(generateSpiral(3, 4))
+
+    
 }
 
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {
