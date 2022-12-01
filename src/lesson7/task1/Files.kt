@@ -3,9 +3,7 @@
 package lesson7.task1
 
 import java.io.File
-import kotlin.math.max
 import kotlin.math.roundToInt
-import kotlin.text.Typography.less
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -65,8 +63,6 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Все остальные строки должны быть перенесены без изменений, включая пустые строки.
  * Подчёркивание в середине и/или в конце строк значения не имеет.
  */
-
-
 fun deleteMarked(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     writer.use { writer ->
@@ -92,11 +88,6 @@ fun deleteMarked(inputName: String, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-//
-
-
-
-
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
     for (j in File(inputName).readLines()) {
@@ -121,7 +112,6 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     return map
 }
 
-
 /**
  * Средняя (12 баллов)
  *
@@ -135,7 +125,6 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  * Исключения (жюри, брошюра, парашют) в рамках данного задания обрабатывать не нужно
  *
  */
-
 val map = mapOf('ю' to 'у', 'Ю' to 'У', 'Я' to 'А', 'я' to 'а', 'ы' to 'и', 'Ы' to 'И')
 fun sibilants(inputName: String, outputName: String) {
     val outputFile = File(outputName).bufferedWriter()
@@ -217,8 +206,6 @@ fun centerFile(inputName: String, outputName: String) {
  * 7) В самой длинной строке каждая пара соседних слов должна быть отделена В ТОЧНОСТИ одним пробелом
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
-
-
 fun alignFileByWidth(inputName: String, outputName: String) {
     var maxLen = 0
     val outputFile = File(outputName).bufferedWriter()
@@ -298,10 +285,6 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  * Ключи в ассоциативном массиве должны быть в нижнем регистре.
  *
  */
-fun main(){
-    TODO()
-}
-
 fun top20Words(inputName: String): Map<String, Int> {
 
     val map = mutableMapOf<String, Int>()
@@ -443,49 +426,8 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  *
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
-
-
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     TODO()
-//    val output = File(outputName).bufferedWriter()
-//    output.newLine()
-//    output.write("<html>")
-//    output.newLine()
-//    output.write("<body>")
-//    output.newLine()
-//    output.write("<p>")
-//    for (i in File(inputName).readLines()) {
-////        var str = i
-////        var str = "j_[`F~~\\nY**\\\"L!@5R\\n3**S|:b?[LOf64Z&51A=@\\\"H:y0**Y**Ac);~~Ne\\n~~ ~~wX**b3WQsk\\nz\\n*Q}BeL*dFM **\\\"*J2*,~~p4i-{'vke6**]R*A*g*l*=*p/Py*vb9@5k7ar8Vz**`^~~QF/p**7cT**\\\"f~~3f+#Jx5VBz#qD* **R`ix? V** * **\\nYX ,O* *=\$%2]r**Q4Ks]/t~~-*\$^\\\"*Qj**:*E@* ** **Qp**M,DMD**.*/Vv5ED*qh5**BX\\nZqs,%{383ZlhNc["
-//        var str = "Vestibulum lobortis, ~~Est vehicula rutrum *suscipit*~~, ipsum ~~lib~~ero *placerat **tortor***,\n"
-//        if (i == "") {
-//            output.newLine()
-//            output.write("</p>")
-//            output.newLine()
-//            output.write("<p>")
-//        }
-//        str = Regex("""~~(?=(!|@|#|$|}|%|^|&|\+|-|]|\w))""").replace(str, "<s>")
-//
-//
-//        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w|>|<))~~""").replace(str, "</s>")
-//        str = Regex("""\*\*\*(?=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w|>|<))""").replace(str, "<b><i>")
-//        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))\*\*\*""").replace(str, "</b></i>")
-//        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))\*\*""").replace(str, "</b>")
-//        str = Regex("""\*\*(?=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))""").replace(str, "<b>")
-//        str = Regex("""(?<=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))\*""").replace(str, "</i>")
-//        str = Regex("""\*(?=(!|@|#|${'$'}|}|%|^|&|\+|-|]|\w))""").replace(str, "<i>")
-//        output.newLine()
-//        output.write(str)
-//        println(str)
-//    }
-//    output.newLine()
-//    output.write("</p>")
-//    output.newLine()
-//    output.write("</body>")
-//    output.newLine()
-//    output.write("</html>")
-//    output.close()
-
 }
 
 /**
