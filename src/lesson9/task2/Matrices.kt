@@ -104,19 +104,20 @@ fun main() {
 //    println(generateSpiral(8, 8))
 //    println()
 
-    println(generateSpiral(6, 3))
-    println()
-    println(generateSpiral(7, 3))
-    println()
-    println(generateSpiral(8, 3))
-    println()
+
+//    println(generateSpiral(7, 5))
+//    println()
+//    println(generateSpiral(8, 5))
+//    println()
+//    println(generateSpiral(9, 7))
+//    println()
 
 //    println(generateSpiral(3, 3))
 //    println()
 //    println(generateSpiral(4, 7))
 //    println()
-//
-//    println(generateSpiral(5, 3))
+////
+//    println(generateSpiral(6, 3))
 //    println()
 //    println(generateSpiral(46, 5))
 //    println()
@@ -130,6 +131,8 @@ fun main() {
 //    println(generateSpiral(3, 6))
 //    println()
 //    println(generateSpiral(5, 3))
+    println()
+    println(generateSpiral(6, 2))
 
     
 }
@@ -174,7 +177,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
         horizon -= 2
         start = last + 2 * vertical + horizon - 1
         vertical -= 2
-        if (height < width && height % 2 != 0 && i == height / 2 - 1) {
+        if (height <= width && height % 2 != 0 && i == height / 2 - 1) {
             last += 2
             x = 0
             for (h in last + horizon - 1 downTo  last){
@@ -214,10 +217,13 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
         start = last + vertical - 1 + 2 * horizon
         horizon -= 2
         if (height > width && width % 2 != 0 && i == width / 2) {
+            println(matrix)
+            println()
             last += 2
+            y = (height - y + 1) / 2 + 1
             for (h in last..last + vertical - 1){
-                matrix[height - y + 1, i] = h
-                y--
+                matrix[y, i] = h
+                y++
             }
         }
     }
