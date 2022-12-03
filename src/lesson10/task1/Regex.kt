@@ -153,13 +153,17 @@ class Parser(private val groups: List<String>) {
      * предыдущих функциях парсера, и поддержать операцию POW внутри функции calculate.
      */
     internal fun parseExponentiation(): Expression {
+        var flag = false
+        if (groups[pos] == "-") flag = true
         var left = parseFactor()
         while (pos < groups.size) {
             when (val op = operationMap[groups[pos]]) {
                 POW -> {
                     pos++
                     val right = parseFactor()
-                    left = Expression.Binary(left, op, right)
+                    left = if (flag) {
+                        Expression.Negate(Expression.Binary(left, op, right))
+                    } else Expression.Binary(left, op, right)
                 }
                 else -> return left
             }
@@ -171,5 +175,5 @@ class Parser(private val groups: List<String>) {
 }
 
 fun main(){
-    println(parseExpr("input/empty.txt", listOf(1, 2, 3)))
+    println(parseExpr("input/empty.txt", listOf(-1, -2, -3)))
 }
