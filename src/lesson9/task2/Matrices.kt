@@ -388,7 +388,25 @@ operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toSt
  * Вернуть тройку (Triple) -- (да/нет, требуемый сдвиг по высоте, требуемый сдвиг по ширине).
  * Если наложение невозможно, то первый элемент тройки "нет" и сдвиги могут быть любыми.
  */
-fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> = TODO()
+
+fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> {
+
+    fun cutLockMatrix(startH: Int, startW: Int): Boolean {
+        for (h in startH until startH + key.height) {
+            for (w in startW until startW + key.width) {
+                if (lock[h, w] + key[h - startH, w - startW] != 1) return false
+            }
+        }
+        return true
+    }
+
+    for (h in 0..lock.height - key.height) {
+        for (w in 0 .. lock.width - key.width) {
+            if (cutLockMatrix(h, w)) return Triple(true, h, w)
+        }
+    }
+    return Triple(false, -1, -1)
+}
 
 /**
  * Сложная (8 баллов)
