@@ -200,7 +200,7 @@ fun lineByPoints(a: Point, b: Point): Line = TODO()
  */
 
 fun main(){
-    println(bisectorByPoints(Point(0.2602747556185866, 0.9006702182991129), Point(-2.220446049250313e-16, 0.674319989115895)))
+    println(bisectorByPoints(Point(-2.220446049250313e-16, 0.6964080777901507), Point(-632.0, 0.39838685569478827)))
 }
 fun bisectorByPoints(a: Point, b: Point): Line {
     val centre = Point((maxOf(a.x, b.x) + minOf(a.x, b.x)) / 2.0, (maxOf(a.y, b.y) + minOf(a.y, b.y)) / 2.0)
