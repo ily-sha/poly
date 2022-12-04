@@ -139,6 +139,23 @@ fun main() {
 }
 
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    // происходит заполнение спирали 4 фрагментами
+    // первый фрагмент
+    // 1 2  3  4
+    //   13 14
+    // второй фрагмент
+    //   16 15
+    //10  9 8  7
+    // третий фрагмент
+    //         5
+    //         6
+    // четвертый фрагмент
+    //  12
+    //  13
+
+    //var start - число, с которой начинается заполнение
+    //var horizon - количество чисел в ряду
+    //var vertical - количество чисел в столбце
     val matrix = createMatrix(height, width, 0)
     if (height == 1) {
         for (j in 0 until width) matrix[0, j] = j + 1
@@ -401,7 +418,7 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
     }
 
     for (h in 0..lock.height - key.height) {
-        for (w in 0 .. lock.width - key.width) {
+        for (w in 0..lock.width - key.width) {
             if (cutLockMatrix(h, w)) return Triple(true, h, w)
         }
     }
@@ -435,7 +452,7 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * 0  4 13  6
  * 3 10 11  8
  */
-fun findDigit(digit: Int, matrix: Matrix<Int>): Pair<Int, Int> {
+fun findDigitCoordinate(digit: Int, matrix: Matrix<Int>): Pair<Int, Int> {
     for (c in 0..3) {
         for (r in 0..3) {
             if (matrix[c, r] == digit) {
@@ -448,15 +465,19 @@ fun findDigit(digit: Int, matrix: Matrix<Int>): Pair<Int, Int> {
 
 fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
     for (i in moves) {
-        val digitCoordinate = findDigit(i, matrix)
+        val digitCoordinate = findDigitCoordinate(i, matrix)
         val zeroPos = when {
-            digitCoordinate.first != 3 && matrix[digitCoordinate.first + 1, digitCoordinate.second] == 0 -> Pair(digitCoordinate.first + 1,
+            digitCoordinate.first != 3 && matrix[digitCoordinate.first + 1, digitCoordinate.second] == 0 -> Pair(
+                digitCoordinate.first + 1,
                 digitCoordinate.second)
-            digitCoordinate.first != 0 && matrix[digitCoordinate.first - 1, digitCoordinate.second] == 0 -> Pair(digitCoordinate.first - 1,
+            digitCoordinate.first != 0 && matrix[digitCoordinate.first - 1, digitCoordinate.second] == 0 -> Pair(
+                digitCoordinate.first - 1,
                 digitCoordinate.second)
-            digitCoordinate.second != 0 && matrix[digitCoordinate.first, digitCoordinate.second - 1] == 0 -> Pair(digitCoordinate.first,
+            digitCoordinate.second != 0 && matrix[digitCoordinate.first, digitCoordinate.second - 1] == 0 -> Pair(
+                digitCoordinate.first,
                 digitCoordinate.second - 1)
-            digitCoordinate.second != 3 && matrix[digitCoordinate.first, digitCoordinate.second + 1] == 0 -> Pair(digitCoordinate.first,
+            digitCoordinate.second != 3 && matrix[digitCoordinate.first, digitCoordinate.second + 1] == 0 -> Pair(
+                digitCoordinate.first,
                 digitCoordinate.second + 1)
             else -> throw IllegalStateException("")
         }

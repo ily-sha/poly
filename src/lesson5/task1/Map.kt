@@ -409,7 +409,8 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
                 result[itemIndex][i] = result[itemIndex - 1][i]
             } else {
                 val prev = result[itemIndex - 1][i]
-                val special = result[itemIndex - 1][i - treasures.entries.toList()[itemIndex - 1].value.first].first + treasures.entries.toList()[itemIndex - 1].value.second
+                val special = result[itemIndex - 1][i - treasures.entries.toList()[itemIndex - 1].value.first].first +
+                        treasures.entries.toList()[itemIndex - 1].value.second
 
                 if (prev.first > special) result[itemIndex][i] = prev
                 else {
@@ -423,22 +424,3 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     }
     return result[treasures.size][capacity].second
 }
-//    var count = 1
-//    for (i in treasures) {
-//        val new_mutableList = mutableListOf<Pair<Int, Pair<Int, Set<String>>>>()
-//        for (j in 0 until count * 2) {
-//            val last = mutableList[j / 2]
-//            if (j % 2 == 0) {
-//                val set = last.second.second + i.key
-//                val new_pair =
-//                    Pair(last.first + i.value.second, Pair(last.second.first + i.value.first, set.toMutableSet()))
-//                new_mutableList.add(new_pair)
-//            } else {
-//                new_mutableList.add(last)
-//            }
-//        }
-//        mutableList = new_mutableList
-//        count *= 2
-//    }
-//    return mutableList.filter { it.second.first <= capacity }.sortedByDescending { it.first }[0].second.second
-
