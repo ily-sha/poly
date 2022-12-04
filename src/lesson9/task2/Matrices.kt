@@ -167,9 +167,8 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var horizon = width
     var vertical = height - 1
     var start = 1
-
+    var last = 0
     for (i in 0 until height / 2) {
-        var last = 0
         var x = 0
         for (j in start until start + horizon) {
             matrix[i, i + x] = j
@@ -184,8 +183,8 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     horizon = width
     vertical = height - 2
     start = height - 1 + width
+    last = 0
     for (i in 0 until height / 2) {
-        var last = 0
         var x = 0
         for (j in start until start + horizon) {
             matrix[height - i - 1, width - x - i - 1] = j
@@ -207,7 +206,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     start = width + 1
     horizon = width - 1
     vertical = height - 2
-    var last = 0
+    last = 0
     for (i in 1..width / 2) {
         var y = 0
         for (j in start until start + vertical) {
@@ -235,8 +234,6 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
         start = last + vertical - 1 + 2 * horizon
         horizon -= 2
         if (height > width && width % 2 != 0 && i == width / 2) {
-            println(matrix)
-            println()
             last += 2
             y = (height - y + 1) / 2 + 1
             for (h in last until last + vertical) {
@@ -245,9 +242,6 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
             }
         }
     }
-
-
-
     return matrix
 }
 
@@ -468,17 +462,13 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
         val digitCoordinate = findDigitCoordinate(i, matrix)
         val zeroPos = when {
             digitCoordinate.first != 3 && matrix[digitCoordinate.first + 1, digitCoordinate.second] == 0 -> Pair(
-                digitCoordinate.first + 1,
-                digitCoordinate.second)
+                digitCoordinate.first + 1, digitCoordinate.second)
             digitCoordinate.first != 0 && matrix[digitCoordinate.first - 1, digitCoordinate.second] == 0 -> Pair(
-                digitCoordinate.first - 1,
-                digitCoordinate.second)
+                digitCoordinate.first - 1, digitCoordinate.second)
             digitCoordinate.second != 0 && matrix[digitCoordinate.first, digitCoordinate.second - 1] == 0 -> Pair(
-                digitCoordinate.first,
-                digitCoordinate.second - 1)
+                digitCoordinate.first, digitCoordinate.second - 1)
             digitCoordinate.second != 3 && matrix[digitCoordinate.first, digitCoordinate.second + 1] == 0 -> Pair(
-                digitCoordinate.first,
-                digitCoordinate.second + 1)
+                digitCoordinate.first, digitCoordinate.second + 1)
             else -> throw IllegalStateException("")
         }
         matrix[zeroPos.first, zeroPos.second] = i
