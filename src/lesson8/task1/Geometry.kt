@@ -199,21 +199,22 @@ fun lineByPoints(a: Point, b: Point): Line = TODO()
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 
-fun main(){
-    println(bisectorByPoints(Point(-2.220446049250313e-16, 0.6964080777901507), Point(-632.0, 0.39838685569478827)))
+fun main() {
+//    println(bisectorByPoints(Point(-2.220446049250313e-16, 0.6964080777901507), Point(-632.0, 0.39838685569478827)))
 }
-fun bisectorByPoints(a: Point, b: Point): Line {
-    val centre = Point((maxOf(a.x, b.x) + minOf(a.x, b.x)) / 2.0, (maxOf(a.y, b.y) + minOf(a.y, b.y)) / 2.0)
-    var angle = 0.0
-    if (a.x != b.x) {
-        angle = (abs((a.y - b.y) / (a.x - b.x)) * -0.5) % PI
-        if (-PI / 2 <= angle && angle <= 0) angle += PI / 2
-        if (-PI <= angle && angle <= -PI / 2) angle -= PI / 2
-        if (angle == 0.0) angle = PI / 2
-    }
-
-    return Line(centre, angle)
-}
+fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+//{
+//    val centre = Point((maxOf(a.x, b.x) + minOf(a.x, b.x)) / 2.0, (maxOf(a.y, b.y) + minOf(a.y, b.y)) / 2.0)
+//    var angle = 0.0
+//    if (a.x != b.x) {
+//        angle = (abs((a.y - b.y) / (a.x - b.x)) * -0.5) % PI
+//        if (-PI / 2 <= angle && angle <= 0) angle += PI / 2
+//        if (-PI <= angle && angle <= -PI / 2) angle -= PI / 2
+//        if (angle == 0.0) angle = PI / 2
+//    }
+//
+//    return Line(centre, angle)
+//}
 
 /**
  * Средняя (3 балла)

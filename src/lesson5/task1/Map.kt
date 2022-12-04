@@ -388,17 +388,41 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-//  println(findSumOfTwo(listOf("1", "2", "3"), 4))
+
 //  println(bagPacking(mapOf("0" to (468 to 1), "1" to (217 to 2)), 678))
-//  println(bagPacking(mapOf("1" to (5 to 3), "2" to (10 to 5), "3" to (6 to 4), "4" to (5 to 2)),14))
+
 //  println(bagPacking(mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),850))
 //  println(findSumOfTwo(listOf(1, 2, 3), 6))
 //  println(bagPacking( mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)), 450))
 
+//fun main() {
+//    println(bagPacking(mapOf("ozhe" to (4 to 4000), "circle" to (1 to 2500), "pod" to (3 to 2000)), 4))
+//}
 
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    TODO()
-//    var mutableList = mutableListOf(Pair(0, Pair(0, setOf<String>())))
+    val result = MutableList(treasures.size + 1) {
+        MutableList(capacity + 1) { Pair(0, setOf<String>()) }
+    }
+    for (itemIndex in 1..treasures.size) {
+        for (i in 1..capacity) {
+            if (treasures.entries.toList()[itemIndex - 1].value.first > i) {
+                result[itemIndex][i] = result[itemIndex - 1][i]
+            } else {
+                val prev = result[itemIndex - 1][i]
+                val special = result[itemIndex - 1][i - treasures.entries.toList()[itemIndex - 1].value.first].first + treasures.entries.toList()[itemIndex - 1].value.second
+
+                if (prev.first > special) result[itemIndex][i] = prev
+                else {
+                    val newSet = mutableSetOf(treasures.entries.toList()[itemIndex - 1].key)
+                    newSet.addAll(result[itemIndex - 1][i - treasures.entries.toList()[itemIndex - 1].value.first].second)
+                    result[itemIndex][i] = Pair(special, newSet)
+                }
+
+            }
+        }
+    }
+    return result[treasures.size][capacity].second
+}
 //    var count = 1
 //    for (i in treasures) {
 //        val new_mutableList = mutableListOf<Pair<Int, Pair<Int, Set<String>>>>()
@@ -417,4 +441,4 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
 //        count *= 2
 //    }
 //    return mutableList.filter { it.second.first <= capacity }.sortedByDescending { it.first }[0].second.second
-}
+
