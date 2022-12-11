@@ -128,6 +128,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  */
 val map = mapOf('þ' to 'ó', 'Þ' to 'Ó', 'ß' to 'À', 'ÿ' to 'à', 'û' to 'è', 'Û' to 'È')
 fun sibilants(inputName: String, outputName: String) {
+    TODO()
     val outputFile = File(outputName).bufferedWriter()
     outputFile.use { outputFile ->
         for (i in File(inputName).readLines()) {
@@ -286,6 +287,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
+    TODO()
     val map = mutableMapOf<String, Int>()
     for (i in File(inputName).readLines()) {
         println(i)
