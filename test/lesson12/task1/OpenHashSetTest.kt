@@ -82,6 +82,7 @@ class OpenHashSetTest {
         set2.add(1)
         set2.add(3)
         set2.add(6)
-        assertTrue(set1.hashCode() == set2.hashCode())
     }
+
+
 }

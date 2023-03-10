@@ -2,6 +2,7 @@
 
 package lesson7.task1
 
+import ru.spbstu.wheels.toMap
 import java.io.File
 
 // Урок 7: работа с файлами
@@ -91,8 +92,21 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  * Исключения (жюри, брошюра, парашют) в рамках данного задания обрабатывать не нужно
  *
  */
+val map = mapOf('ю' to 'у', 'Ю' to 'У', 'Я' to 'А', 'я' to 'а', 'ы' to 'и', 'Ы' to 'И')
+
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val outputFile = File(outputName).bufferedWriter()
+    outputFile.use { outputFile ->
+        for (i in File(inputName).readLines()) {
+            var str = i
+            for (i in Regex("""[шщжч](?=[юяы])""").findAll(i.lowercase())) {
+                str = str.replaceRange(i.range.last + 1, i.range.last + 2, map[str[i.range.last + 1]].toString())
+            }
+            outputFile.write(str)
+            outputFile.newLine()
+
+        }
+    }
 }
 
 /**
@@ -167,8 +181,27 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  * Ключи в ассоциативном массиве должны быть в нижнем регистре.
  *
  */
-fun top20Words(inputName: String): Map<String, Int> = TODO()
-
+fun top20Words(inputName: String): Map<String, Int> {
+    val map = mutableMapOf<String, Int>()
+    for (i in File(inputName).readLines()) {
+        for (j in Regex("""[А-яA-zёЁ]+""").findAll(i.lowercase())) {
+            if (j.value != "") {
+                val element = map[j.value.lowercase()]
+                if (element != null) {
+                    map[j.value.lowercase()] = element + 1
+                } else {
+                    map[j.value.lowercase()] = 1
+                }
+            }
+        }
+    }
+    val listOfMap = map.entries.sortedByDescending { it.value }
+    val resMap = if (map.size > 20) {
+        val twenty = listOfMap.toList()[19].value
+        map.filter { it.value >= twenty }
+    } else listOfMap.toMap()
+    return resMap
+}
 /**
  * Средняя (14 баллов)
  *

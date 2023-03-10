@@ -9,6 +9,7 @@ class PolynomTest {
 
     private fun assertApproxEquals(expected: Polynom, actual: Polynom, eps: Double) {
         assertEquals(expected.degree(), actual.degree())
+//        println("${expected.listOfCoefficient}, ${actual.listOfCoefficient}")
         for (i in 0..expected.degree()) {
             assertEquals(expected.coeff(i), actual.coeff(i), eps)
         }
@@ -26,10 +27,10 @@ class PolynomTest {
     fun polynomDegree() {
         val p = Polynom(1.0, 1.0, 1.0)
         assertEquals(2, p.degree())
-        val q = Polynom(0.0)
-        assertEquals(0, q.degree())
         val r = Polynom(0.0, 1.0, 2.0)
         assertEquals(1, r.degree())
+        val q = Polynom(0.0)
+        assertEquals(0, q.degree())
     }
 
     @Test

@@ -2,6 +2,8 @@
 
 package lesson12.task1
 
+import lesson5.task1.containsIn
+
 /**
  * Класс "хеш-таблица с открытой адресацией"
  *
@@ -21,32 +23,48 @@ class OpenHashSet<T>(val capacity: Int) {
      * Массив для хранения элементов хеш-таблицы
      */
     internal val elements = Array<Any?>(capacity) { null }
+//    private fun currentSize() = elements.filterNotNull().size
+
 
     /**
      * Число элементов в хеш-таблице
      */
-    val size: Int get() = TODO()
+    val size: Int get() = elements.filterNotNull().size
 
     /**
      * Признак пустоты
      */
-    fun isEmpty(): Boolean = TODO()
-
+    fun isEmpty(): Boolean = elements.filterNotNull().isEmpty()
     /**
      * Добавление элемента.
      * Вернуть true, если элемент был успешно добавлен,
      * или false, если такой элемент уже был в таблице, или превышена вместимость таблицы.
      */
-    fun add(element: T): Boolean = TODO()
+    fun add(element: T): Boolean {
+        if (element in elements || elements.filterNotNull().size >= capacity) return false
+        elements[elements.filterNotNull().size] = element
+        return true
+    }
 
     /**
      * Проверка, входит ли заданный элемент в хеш-таблицу
      */
-    operator fun contains(element: T): Boolean = TODO()
+    operator fun contains(element: T): Boolean = elements.contains(element)
 
     /**
      * Таблицы равны, если в них одинаковое количество элементов,
      * и любой элемент из второй таблицы входит также и в первую
      */
-    override fun equals(other: Any?): Boolean = TODO()
+    override fun equals(other: Any?): Boolean {
+        if (other is OpenHashSet<*> && other.elements.filterNotNull().size == elements.filterNotNull().size) {
+            for (i in other.elements) {
+                if (i !in elements) return false
+            }
+            return true
+        }
+        return false
+    }
+
+
+    override fun hashCode(): Int = super.hashCode()
 }

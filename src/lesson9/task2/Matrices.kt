@@ -160,7 +160,7 @@ fun findHoles(matrix: Matrix<Int>): Holes = TODO()
 /**
  * Класс для описания местонахождения "дырок" в матрице
  */
-data class Holes(val rows: List<Int>, val columns: List<Int>)
+data class  Holes(val rows: List<Int>, val columns: List<Int>)
 
 /**
  * Средняя (3 балла)
