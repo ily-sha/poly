@@ -3,13 +3,18 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
 // Максимальное количество баллов = 6
 // Рекомендуемое количество баллов = 5
 // Вместе с предыдущими уроками = 9/12
+fun main() {
+    println(ageDescription(52))
+}
 
 /**
  * Пример
@@ -30,13 +35,14 @@ fun quadraticRootNumber(a: Double, b: Double, c: Double): Int {
  *
  * Получить строковую нотацию для оценки по пятибалльной системе
  */
-fun gradeNotation(grade: Int): String = when (grade) {
-    5 -> "отлично"
-    4 -> "хорошо"
-    3 -> "удовлетворительно"
-    2 -> "неудовлетворительно"
-    else -> "несуществующая оценка $grade"
-}
+fun gradeNotation(grade: Int): String =
+    when (grade) {
+        5 -> "отлично"
+        4 -> "хорошо"
+        3 -> "удовлетворительно"
+        2 -> "неудовлетворительно"
+        else -> "несуществующая оценка $grade"
+    }
 
 /**
  * Пример
@@ -46,9 +52,13 @@ fun gradeNotation(grade: Int): String = when (grade) {
 fun minBiRoot(a: Double, b: Double, c: Double): Double {
     // 1: в главной ветке if выполняется НЕСКОЛЬКО операторов
     if (a == 0.0) {
-        if (b == 0.0) return Double.NaN // ... и ничего больше не делать
+        if (b == 0.0) {
+            return Double.NaN
+        } // ... и ничего больше не делать
         val bc = -c / b
-        if (bc < 0.0) return Double.NaN // ... и ничего больше не делать
+        if (bc < 0.0) {
+            return Double.NaN
+        } // ... и ничего больше не делать
         return -sqrt(bc)
         // Дальше функция при a == 0.0 не идёт
     }
@@ -68,7 +78,16 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    val newAge = age % 100
+    return if (newAge % 10 == 1 && newAge != 11) {
+        "$age год"
+    } else if (newAge % 10 in 2..4 && newAge !in 12..14) {
+        "$age года"
+    } else {
+        "$age лет"
+    }
+}
 
 /**
  * Простая (2 балла)
@@ -81,7 +100,21 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double = TODO()
+): Double {
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val s3 = t3 * v3
+    val averageS = (s1 + s2 + s3) / 2
+    return if (s1 <= averageS) {
+        if (s1 + s2 >= averageS) {
+            t1 + (averageS - s1) / v2
+        } else {
+            t1 + t2 + (averageS - s1 - s2) / v3
+        }
+    } else {
+        averageS / v1
+    }
+}
 
 /**
  * Простая (2 балла)
@@ -96,7 +129,19 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int {
+    var count = 0
+    if (kingX == rookX1 || kingY == rookY1) {
+        count++
+    }
+    if (kingX == rookX2 || kingY == rookY2) {
+        if (count == 1) {
+            return 3
+        }
+        return 2
+    }
+    return count
+}
 
 /**
  * Простая (2 балла)
@@ -112,7 +157,19 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    var count = 0
+    if (kingX == rookX || kingY == rookY) {
+        count++
+    }
+    if (abs(kingX - bishopX) == abs(kingY - bishopY)) {
+        if (count == 1) {
+            return 3
+        }
+        return 2
+    }
+    return count
+}
 
 /**
  * Простая (2 балла)
@@ -122,7 +179,21 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val minSide = minOf(a, b, c)
+    val maxSide = maxOf(a, b, c)
+    val averageSide = a + b + c - maxSide - minSide
+    if (maxSide < minSide + averageSide && a > 0.0 && b > 0.0 && c > 0.0) {
+        if (maxSide.pow(2) == minSide.pow(2) + averageSide.pow(2)) {
+            return 1
+        } else if (maxSide.pow(2) < minSide.pow(2) + averageSide.pow(2)) {
+            return 0
+        } else if (maxSide.pow(2) > minSide.pow(2) + averageSide.pow(2)) {
+            return 2
+        }
+    }
+    return -1
+}
 
 /**
  * Средняя (3 балла)
@@ -132,4 +203,18 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (a in c..d && b in c..d) {
+        return b - a
+    }
+    if (c in a..b && d in a..b) {
+        return d - c
+    }
+    if (c in a..b) {
+        return b - c
+    }
+    if (a in c..d) {
+        return d - a
+    }
+    return -1
+}

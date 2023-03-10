@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import ru.spbstu.wheels.NullableMonad.map
+
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -45,22 +48,7 @@ fun timeSecondsToStr(seconds: Int): String {
 }
 
 /**
- * Пример: консольный ввод
- */
-fun main() {
-    println("Введите время в формате ЧЧ:ММ:СС")
-    val line = readLine()
-    if (line != null) {
-        val seconds = timeStrToSeconds(line)
-        if (seconds == -1) {
-            println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        } else {
-            println("Прошло секунд с начала суток: $seconds")
-        }
-    } else {
-        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
-    }
-}
+ * Пример: консольный ввод */
 
 
 /**
@@ -102,6 +90,8 @@ fun dateDigitToStr(digital: String): String = TODO()
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
+
+
 fun flattenPhoneNumber(phone: String): String = TODO()
 
 /**
@@ -114,7 +104,15 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var max = -1
+    if (Regex("""((\d+|\%|\-) )*(\d+|\%|\-)""").matches(jumps)) {
+        for (i in Regex("""\d+""").findAll(jumps)) {
+            if (i.value.toInt() > max) max = i.value.toInt()
+        }
+    }
+    return max
+}
 
 /**
  * Сложная (6 баллов)
@@ -138,10 +136,32 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
 
-/**
- * Сложная (6 баллов)
+fun main() {
+    println()
+}
+
+fun plusMinus(expression: String): Int {
+    if (Regex("""\d+ *([\-\+] \d+ *)*""").matches(expression)) {
+        val arr = expression.split(" ")
+        var plusMinus = ""
+        var count = 0
+        for (i in arr.indices) {
+            if (i % 2 == 0) {
+                when (plusMinus) {
+                    "+" -> count += arr[i].toInt()
+                    "-" -> count -= arr[i].toInt()
+                    else -> count = arr[i].toInt()
+                }
+            } else plusMinus = arr[i]
+        }
+        return count
+    }
+    throw java.lang.IllegalArgumentException("")
+}
+
+
+/** Сложная (6 баллов)
  *
  * Строка состоит из набора слов, отделённых друг от друга одним пробелом.
  * Определить, имеются ли в строке повторяющиеся слова, идущие друг за другом.
@@ -149,7 +169,20 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+
+
+fun firstDuplicateIndex(str: String): Int {
+    val arr = str.split(" ")
+    if (arr.size == 2 && arr[0].lowercase() == arr[1].lowercase()) return 0
+    var len = 0
+    for (i in 0 until arr.size - 1) {
+        if (arr[i].lowercase() == arr[i + 1].lowercase()) {
+            return str.indexOf(arr[i], startIndex = len)
+        }
+        len += arr[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная (6 баллов)
@@ -162,7 +195,11 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+
+
+fun mostExpensive(description: String): String =
+    description.split("; ").maxBy { it.split(" ")[1].toDouble() }.split(" ").get(0)
+
 
 /**
  * Сложная (6 баллов)

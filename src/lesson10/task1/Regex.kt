@@ -3,6 +3,7 @@ package lesson10.task1
 import lesson10.task1.Expression.Operation.*
 import java.io.File
 import java.util.regex.Pattern
+import kotlin.math.pow
 
 // Урок 10: разбор синтаксически сложных выражений, алгебраические классы
 // Максимальное количество баллов = 15 (собственно, пока одна задача)
@@ -81,7 +82,7 @@ sealed class Expression {
                 left.calculate(x) / right.calculate(x)
             }
             POW -> {
-                TODO()
+                left.calculate(x).toDouble().pow(right.calculate(x)).toInt()
             }
         }
         is Negate -> -arg.calculate(x)
@@ -113,12 +114,12 @@ class Parser(private val groups: List<String>) {
     }
 
     private fun parseItem(): Expression {
-        var left = parseFactor()
+        var left = parseExponentiation()
         while (pos < groups.size) {
             when (val op = operationMap[groups[pos]]) {
                 TIMES, DIV -> {
                     pos++
-                    val right = parseFactor()
+                    val right = parseExponentiation()
                     left = Expression.Binary(left, op, right)
                 }
                 else -> return left
@@ -151,8 +152,27 @@ class Parser(private val groups: List<String>) {
      * предыдущих функциях парсера, и поддержать операцию POW внутри функции calculate.
      */
     internal fun parseExponentiation(): Expression {
-        TODO()
+        var flag = false
+        if (groups[pos] == "-") flag = true
+        var left = parseFactor()
+        while (pos < groups.size) {
+            when (val op = operationMap[groups[pos]]) {
+                POW -> {
+                    pos++
+                    val right = parseFactor()
+                    left = if (flag) {
+                        Expression.Negate(Expression.Binary(left, op, right))
+                    } else Expression.Binary(left, op, right)
+                }
+                else -> return left
+            }
+        }
+        return left
     }
 
     private val operationMap = mapOf("+" to PLUS, "-" to MINUS, "*" to TIMES, "/" to DIV, "^" to POW)
+}
+
+fun main(){
+    println(parseExpr("input/empty.txt", listOf(-1, -2, -3)))
 }

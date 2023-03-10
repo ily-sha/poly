@@ -135,6 +135,7 @@ class Tests {
     @Test
     @Tag("3")
     fun lcm() {
+        assertEquals(43698, lcm(6, 21849))
         assertEquals(13, lcm(13, 13))
         assertEquals(8, lcm(2, 8))
         assertEquals(24, lcm(6, 8))
@@ -185,7 +186,9 @@ class Tests {
         assertTrue(hasDifferentDigits(323))
         assertTrue(hasDifferentDigits(54))
         assertTrue(hasDifferentDigits(222266666))
+        assertFalse(hasDifferentDigits(3))
         assertFalse(hasDifferentDigits(0))
+
         assertFalse(hasDifferentDigits(777))
         assertTrue(hasDifferentDigits(31122))
     }

@@ -60,7 +60,190 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+
+/**
+ * На вход функции подается список строк в формате
+ * “Иванов Петр: улица Ленина, 41, кв. 2”
+ * Каждая строка начинается с фамилии и имени человека (разделенных
+ * одним пробелом), далее через запятую пробел(ы) следует адрес:
+ * название улицы (может состоять из нескольких слов через
+ * один пробел),
+ * номер дома (целое число) и номер квартиры
+ * (с префиксом “кв.”; целое число).
+ *
+ * На вход также подается имя человека.
+ *
+ * Вернуть список людей, которые являются соседями
+ * указанного человека
+ * (соседями считаются люди, которые живут в одном доме).
+ *
+ * Имя функции и тип результата функции предложить самостоятельно;
+ * в задании указан тип Collection<Any>,
+ * то есть коллекция объектов произвольного типа,
+ * можно (и нужно) изменить как вид коллекции,
+ * так и тип её элементов.
+ *
+ * При нарушении формата входной строки,
+ * бросить IllegalArgumentException
+ *
+ * Кроме функции, следует написать тесты,
+ * подтверждающие её работоспособность.
+ */
+fun myFun(table: Map<String, Int>, taxes: String): Collection<Any> {
+    val result = mutableMapOf<String, Int>()
+    for (i in taxes.split("\n")) {
+        if (Regex("""(([А-я])+ *)+ - (([А-я])+ *)+ - \d+""").matches(i)) {
+            val (name, type, profit) = i.split(" - ")
+            result[name] = profit.toInt() * (table[type] ?: 13) / 100
+        } else throw IllegalArgumentException("")
+    }
+    return result.entries.sortedByDescending { it.value }.map { it.value }
+}
+
+fun main() {
+//    println(myFun(listOf("Иванов Петр: улица Ленина, 41, кв. 2", "Иванов Илья: улица Ленина, 41, кв. 2"),"Иванов Илья"))
+//    println(generateSpiral(8, 8))
+//    println()
+
+
+//    println(generateSpiral(7, 5))
+//    println()
+//    println(generateSpiral(8, 5))
+//    println()
+//    println(generateSpiral(9, 7))
+//    println()
+
+//    println(generateSpiral(3, 3))
+//    println()
+//    println(generateSpiral(4, 7))
+//    println()
+////
+//    println(generateSpiral(6, 3))
+//    println()
+//    println(generateSpiral(46, 5))
+//    println()
+
+//    println(generateSpiral(3, 2))
+//    println()
+//    println(generateSpiral(3, 4))
+//    println()
+//    println(generateSpiral(3, 5))
+//    println()
+//    println(generateSpiral(3, 6))
+//    println()
+//    println(generateSpiral(5, 3))
+    println()
+    println(generateSpiral(6, 2))
+
+
+}
+
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    // происходит заполнение спирали 4 фрагментами
+    // первый фрагмент
+    // 1 2  3  4
+    //   13 14
+    // второй фрагмент
+    //   16 15
+    //10  9 8  7
+    // третий фрагмент
+    //         5
+    //         6
+    // четвертый фрагмент
+    //  12
+    //  13
+
+    //var start - число, с которой начинается заполнение
+    //var horizon - количество чисел в ряду
+    //var vertical - количество чисел в столбце
+    val matrix = createMatrix(height, width, 0)
+    if (height == 1) {
+        for (j in 0 until width) matrix[0, j] = j + 1
+    }
+    if (width == 1) {
+        for (j in 0 until height) matrix[j, 0] = j + 1
+        return matrix
+    }
+    var horizon = width
+    var vertical = height - 1
+    var start = 1
+    var last = 0
+    for (i in 0 until height / 2) {
+        var x = 0
+        for (j in start until start + horizon) {
+            matrix[i, i + x] = j
+            last = j
+            x++
+        }
+        horizon -= 2
+        start = last + 2 * vertical + horizon + 1
+        vertical -= 2
+
+    }
+    horizon = width
+    vertical = height - 2
+    start = height - 1 + width
+    last = 0
+    for (i in 0 until height / 2) {
+        var x = 0
+        for (j in start until start + horizon) {
+            matrix[height - i - 1, width - x - i - 1] = j
+            last = j
+            x++
+        }
+        horizon -= 2
+        start = last + 2 * vertical + horizon - 1
+        vertical -= 2
+        if (height <= width && height % 2 != 0 && i == height / 2 - 1) {
+            last += 2
+            x = 0
+            for (h in last + horizon - 1 downTo last) {
+                matrix[height / 2, width - x - i - 2] = h
+                x++
+            }
+        }
+    }
+    start = width + 1
+    horizon = width - 1
+    vertical = height - 2
+    last = 0
+    for (i in 1..width / 2) {
+        var y = 0
+        for (j in start until start + vertical) {
+            matrix[i + y, width - i] = j
+            last = j
+            y++
+        }
+
+        start = last + vertical + 1 + 2 * horizon
+        vertical -= 2
+        horizon -= 2
+    }
+    start = 2 * width + height - 1
+    horizon = width - 1
+    vertical = height - 2
+    last = 0
+    for (i in 1..width / 2) {
+        var y = 1
+        for (j in start until start + vertical) {
+            matrix[height - i - y, i - 1] = j
+            last = j
+            y++
+        }
+        vertical -= 2
+        start = last + vertical - 1 + 2 * horizon
+        horizon -= 2
+        if (height > width && width % 2 != 0 && i == width / 2) {
+            last += 2
+            y = (height - y + 1) / 2 + 1
+            for (h in last until last + vertical) {
+                matrix[y, i] = h
+                y++
+            }
+        }
+    }
+    return matrix
+}
 
 /**
  * Сложная (5 баллов)
@@ -216,7 +399,25 @@ operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toSt
  * Вернуть тройку (Triple) -- (да/нет, требуемый сдвиг по высоте, требуемый сдвиг по ширине).
  * Если наложение невозможно, то первый элемент тройки "нет" и сдвиги могут быть любыми.
  */
-fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> = TODO()
+
+fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> {
+
+    fun cutLockMatrix(startH: Int, startW: Int): Boolean {
+        for (h in startH until startH + key.height) {
+            for (w in startW until startW + key.width) {
+                if (lock[h, w] + key[h - startH, w - startW] != 1) return false
+            }
+        }
+        return true
+    }
+
+    for (h in 0..lock.height - key.height) {
+        for (w in 0..lock.width - key.width) {
+            if (cutLockMatrix(h, w)) return Triple(true, h, w)
+        }
+    }
+    return Triple(false, -1, -1)
+}
 
 /**
  * Сложная (8 баллов)
@@ -245,7 +446,36 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * 0  4 13  6
  * 3 10 11  8
  */
-fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> = TODO()
+fun findDigitCoordinate(digit: Int, matrix: Matrix<Int>): Pair<Int, Int> {
+    for (c in 0..3) {
+        for (r in 0..3) {
+            if (matrix[c, r] == digit) {
+                return Pair(c, r)
+            }
+        }
+    }
+    return Pair(-1, -1)
+}
+
+fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
+    for (i in moves) {
+        val digitCoordinate = findDigitCoordinate(i, matrix)
+        val zeroPos = when {
+            digitCoordinate.first != 3 && matrix[digitCoordinate.first + 1, digitCoordinate.second] == 0 -> Pair(
+                digitCoordinate.first + 1, digitCoordinate.second)
+            digitCoordinate.first != 0 && matrix[digitCoordinate.first - 1, digitCoordinate.second] == 0 -> Pair(
+                digitCoordinate.first - 1, digitCoordinate.second)
+            digitCoordinate.second != 0 && matrix[digitCoordinate.first, digitCoordinate.second - 1] == 0 -> Pair(
+                digitCoordinate.first, digitCoordinate.second - 1)
+            digitCoordinate.second != 3 && matrix[digitCoordinate.first, digitCoordinate.second + 1] == 0 -> Pair(
+                digitCoordinate.first, digitCoordinate.second + 1)
+            else -> throw IllegalStateException("")
+        }
+        matrix[zeroPos.first, zeroPos.second] = i
+        matrix[digitCoordinate.first, digitCoordinate.second] = 0
+    }
+    return matrix
+}
 
 /**
  * Очень сложная (32 балла)
